@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Whisper Network — LayoffTrends</title>
+<meta name="description" content="Real layoff experiences rated by real people. See how companies handled their layoffs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<style>
+:root{--ink:#0f0f0f;--ink-muted:#4a4a4a;--ink-faint:#9a9a9a;--paper:#f7f4ef;--paper-warm:#ede9e2;--rule:#d4cfc7;--red:#c8352a;--amber:#d4820a;--green:#2a7d4f;--blue:#1a4d8c;--col-width:1240px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--paper);color:var(--ink);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;}
+.masthead{border-bottom:3px solid var(--ink);background:var(--paper);position:sticky;top:0;z-index:100;}
+.masthead-top{display:flex;align-items:center;justify-content:space-between;padding:10px 32px;border-bottom:1px solid var(--rule);font-family:'DM Mono',monospace;font-size:11px;color:var(--ink-muted);}
+.live-badge{display:flex;align-items:center;gap:6px;color:var(--red);font-weight:500;text-transform:uppercase;letter-spacing:.12em;font-size:10px;}
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(--red);animation:pulse 1.4s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.85)}}
+.masthead-brand{padding:16px 32px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+.wordmark{font-family:'Playfair Display',serif;font-weight:900;font-size:36px;letter-spacing:-.03em;color:var(--ink);text-decoration:none;line-height:1;flex-shrink:0;}
+.wordmark span{color:var(--red);}
+.brand-pillars{display:flex;gap:10px;align-items:center;}
+.brand-pillar{font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;color:var(--ink-muted);text-decoration:none;padding:10px 20px;border:2px solid var(--rule);border-radius:3px;transition:all .15s;white-space:nowrap;}
+.brand-pillar:hover{background:var(--paper-warm);color:var(--ink);border-color:var(--ink);}
+.brand-pillar.active{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+.masthead-nav{display:flex;border-top:1px solid var(--rule);padding:0 24px;overflow-x:auto;}
+.masthead-nav a{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted);text-decoration:none;padding:10px 14px;border-right:1px solid var(--rule);white-space:nowrap;transition:color .15s,background .15s;}
+.masthead-nav a:first-child{border-left:1px solid var(--rule);}
+.masthead-nav a:hover,.masthead-nav a.active{color:var(--ink);background:var(--paper-warm);}
+.user-chip{display:flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-muted);}
+.user-avatar{width:26px;height:26px;border-radius:50%;background:var(--rule);object-fit:cover;}
+.signout-btn{background:none;border:1px solid var(--rule);padding:3px 10px;cursor:pointer;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;border-radius:2px;color:var(--ink-faint);}
+.signout-btn:hover{border-color:var(--ink);color:var(--ink);}
+.page-hero{max-width:var(--col-width);margin:0 auto;padding:40px 32px 32px;border-left:1px solid var(--rule);border-right:1px solid var(--rule);border-bottom:3px solid var(--ink);display:grid;grid-template-columns:1fr auto;align-items:end;gap:40px;}
+.page-eyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--red);margin-bottom:10px;}
+.page-title{font-family:'Playfair Display',serif;font-size:48px;font-weight:900;line-height:1.05;letter-spacing:-.02em;margin-bottom:14px;}
+.page-sub{font-size:14px;color:var(--ink-muted);max-width:540px;line-height:1.7;}
+.hero-stats{display:flex;gap:0;border:1px solid var(--rule);}
+.hs{padding:16px 24px;border-right:1px solid var(--rule);text-align:center;min-width:100px;}
+.hs:last-child{border-right:none;}
+.hs-val{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;line-height:1;}
+.hs-val.red{color:var(--red);}.hs-val.green{color:var(--green);}
+.hs-lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-top:4px;}
+.main-wrap{max-width:var(--col-width);margin:0 auto;border-left:1px solid var(--rule);border-right:1px solid var(--rule);}
+.intro-band{padding:28px 32px;border-bottom:3px solid var(--ink);background:var(--ink);}
+.intro-inner{display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center;}
+.pct-btn{border:2px solid var(--red);padding:16px 24px;text-align:center;cursor:pointer;border-radius:2px;transition:all .15s;min-width:140px;background:#1a0505;}
+.pct-btn:hover{background:var(--red);}
+.pct-btn.good{border-color:var(--green);background:#051a0e;}
+.pct-btn.good:hover{background:var(--green);}
+.pct-num{font-family:'Playfair Display',serif;font-size:36px;font-weight:900;line-height:1;color:var(--red);}
+.pct-btn.good .pct-num{color:#5ec98a;}
+.pct-lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#f47272;margin-top:4px;}
+.pct-btn.good .pct-lbl{color:#5ec98a;}
+.pct-hint{font-family:'DM Mono',monospace;font-size:8px;color:#555;margin-top:6px;}
+.sentiment-band{padding:16px 32px;border-bottom:1px solid var(--rule);background:var(--paper-warm);}
+.sb-label{display:flex;justify-content:space-between;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;}
+.sb-track{height:10px;background:var(--rule);overflow:hidden;position:relative;}
+.sb-bad{position:absolute;left:0;top:0;height:100%;background:var(--red);transition:width .8s ease;}
+.sb-good{position:absolute;right:0;top:0;height:100%;background:var(--green);transition:width .8s ease;}
+.sb-counts{display:flex;justify-content:space-between;margin-top:6px;font-family:'DM Mono',monospace;font-size:10px;}
+.sb-counts .bad{color:var(--red);}.sb-counts .good{color:var(--green);}
+.section-head{display:flex;align-items:baseline;justify-content:space-between;padding:20px 32px 12px;border-bottom:2px solid var(--ink);}
+.section-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;}
+.section-sub{font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-faint);letter-spacing:.08em;text-transform:uppercase;}
+.boards-grid{display:grid;grid-template-columns:1fr 1fr;border-bottom:2px solid var(--ink);}
+.board{padding:24px 32px;}.board-left{border-right:1px solid var(--rule);}
+.board-badge{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;padding:3px 9px;border-radius:2px;font-weight:500;}
+.badge-shame{background:#fde8e8;color:var(--red);border:1px solid #f5c6c4;}
+.badge-fame{background:#e2f5ec;color:var(--green);border:1px solid #b8dfc9;}
+.board-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;margin:10px 0 16px;}
+.co-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--rule);cursor:pointer;transition:background .1s;}
+.co-row:hover{background:var(--paper-warm);margin:0 -8px;padding:10px 8px;}
+.co-rank{font-family:'DM Mono',monospace;font-size:18px;font-weight:300;color:var(--rule);width:28px;text-align:center;flex-shrink:0;}
+.co-info{flex:1;min-width:0;}
+.co-name{font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.co-count{font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-faint);margin-top:1px;}
+.co-score-wrap{flex-shrink:0;text-align:right;}
+.co-score{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;line-height:1;}
+.co-score.red{color:var(--red);}.co-score.green{color:var(--green);}
+.co-score-lbl{font-family:'DM Mono',monospace;font-size:8px;color:var(--ink-faint);}
+.co-meter{width:70px;height:3px;background:var(--rule);border-radius:1px;margin-top:4px;}
+.co-meter-fill{height:3px;border-radius:1px;}
+.legal-bar{background:#fffbf0;border-top:1px solid #e8d88a;border-bottom:1px solid #e8d88a;padding:10px 32px;font-family:'DM Mono',monospace;font-size:10px;color:#8a6d00;letter-spacing:.04em;line-height:1.6;}
+.feed-wrap{padding:0 32px 40px;}
+.feed-filters{display:flex;border-bottom:1px solid var(--rule);margin-bottom:24px;overflow-x:auto;}
+.ff{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:10px 16px;cursor:pointer;color:var(--ink-muted);border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;}
+.ff.active,.ff:hover{color:var(--ink);border-bottom-color:var(--ink);}
+.exp-card{border:1px solid var(--rule);padding:20px 22px;margin-bottom:14px;background:var(--paper);transition:background .12s;}
+.exp-card:hover{background:var(--paper-warm);}
+.exp-header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:12px;}
+.exp-company{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;}
+.exp-meta{font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-faint);margin-top:2px;letter-spacing:.04em;}
+.exp-verdict{display:flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;padding:5px 12px;border-radius:2px;white-space:nowrap;}
+.verdict-bad{background:#fde8e8;color:var(--red);}
+.verdict-ok{background:#fef3dc;color:var(--amber);}
+.verdict-good{background:#e2f5ec;color:var(--green);}
+.exp-story{font-size:13px;color:var(--ink-muted);line-height:1.75;margin-bottom:16px;border-left:3px solid var(--rule);padding-left:14px;}
+.exp-story.bad-border{border-left-color:var(--red);}.exp-story.good-border{border-left-color:var(--green);}
+.exp-scores{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px;}
+.score-box{text-align:center;}
+.score-box-lbl{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:4px;line-height:1.3;}
+.score-dots{display:flex;justify-content:center;gap:3px;}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--rule);}
+.dot.red{background:var(--red);}.dot.green{background:var(--green);}.dot.amber{background:var(--amber);}
+.exp-footer{display:flex;align-items:center;justify-content:space-between;}
+.exp-author{font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-faint);}
+.helpful-btn{background:none;border:1px solid var(--rule);padding:3px 10px;cursor:pointer;font-family:'DM Mono',monospace;font-size:10px;border-radius:2px;color:var(--ink-muted);transition:all .15s;}
+.helpful-btn:hover{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+.helpful-btn.voted{background:var(--green);color:white;border-color:var(--green);}
+.load-more-btn{display:block;width:100%;padding:13px;background:none;border:1px solid var(--rule);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;margin-top:8px;color:var(--ink-muted);transition:all .15s;}
+.load-more-btn:hover{background:var(--paper-warm);border-color:var(--ink);color:var(--ink);}
+.fab{position:fixed;bottom:28px;right:28px;z-index:500;}
+.fab-btn{background:var(--red);color:white;border:none;padding:14px 24px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;border-radius:3px;box-shadow:0 4px 20px rgba(200,53,42,.4);transition:all .2s;display:flex;align-items:center;gap:8px;}
+.fab-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(200,53,42,.5);}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:1000;align-items:flex-start;justify-content:center;padding:40px 16px;overflow-y:auto;}
+.modal-overlay.open{display:flex;}
+.modal-box{background:var(--paper);max-width:480px;width:100%;border-top:4px solid var(--red);position:relative;margin:auto;}
+.modal-box.wide{max-width:600px;}
+.modal-close{position:absolute;top:14px;right:18px;background:none;border:none;font-size:22px;cursor:pointer;color:var(--ink-faint);line-height:1;}
+.modal-close:hover{color:var(--ink);}
+.modal-pad{padding:32px;}
+.modal-eyebrow{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin-bottom:8px;}
+.modal-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--ink);margin-bottom:6px;}
+.modal-sub{font-size:13px;color:var(--ink-muted);line-height:1.65;margin-bottom:24px;}
+.auth-btn{display:flex;align-items:center;gap:14px;width:100%;padding:13px 18px;border:1px solid var(--rule);background:var(--paper);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;color:var(--ink);cursor:pointer;margin-bottom:10px;border-radius:2px;transition:background .15s;text-decoration:none;}
+.auth-btn:hover{background:var(--paper-warm);border-color:var(--ink-muted);}
+.auth-icon{width:20px;height:20px;flex-shrink:0;}
+.divider{display:flex;align-items:center;gap:12px;margin:16px 0;}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--rule);}
+.divider span{font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-faint);letter-spacing:.1em;text-transform:uppercase;}
+.form-lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:5px;display:block;}
+.form-inp{width:100%;padding:10px 13px;border:1px solid var(--rule);background:var(--paper);color:var(--ink);font-family:'DM Sans',sans-serif;font-size:14px;border-radius:2px;outline:none;margin-bottom:12px;}
+.form-inp:focus{border-color:var(--ink);}
+.form-err{font-family:'DM Mono',monospace;font-size:10px;color:var(--red);margin-bottom:10px;display:none;}
+.primary-btn{width:100%;background:var(--ink);color:var(--paper);border:none;padding:13px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;border-radius:2px;margin-top:4px;transition:background .15s;}
+.primary-btn:hover{background:var(--red);}
+.modal-toggle{font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-faint);text-align:center;margin-top:14px;cursor:pointer;}
+.modal-toggle:hover{color:var(--ink);}
+.verdict-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;}
+.vo{border:1px solid var(--rule);padding:10px 8px;text-align:center;cursor:pointer;border-radius:2px;transition:all .15s;background:var(--paper);}
+.vo:hover{border-color:var(--ink-muted);background:var(--paper-warm);}
+.vo.sel-bad{background:var(--red);border-color:var(--red);}
+.vo.sel-ok{background:var(--amber);border-color:var(--amber);}
+.vo.sel-good{background:var(--green);border-color:var(--green);}
+.vo-emoji{font-size:20px;display:block;margin-bottom:3px;}
+.vo-lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted);}
+.vo.sel-bad .vo-lbl,.vo.sel-ok .vo-lbl,.vo.sel-good .vo-lbl{color:white;}
+.stars-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:14px;}
+.star-col{text-align:center;}
+.star-lbl{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:5px;line-height:1.3;}
+.star-row-m{display:flex;justify-content:center;gap:3px;}
+.star-m{font-size:16px;cursor:pointer;color:var(--rule);transition:color .1s;user-select:none;}
+.star-m.lit{color:#f0b429;}
+.opt-toggle{font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-faint);letter-spacing:.08em;text-transform:uppercase;cursor:pointer;margin-bottom:12px;}
+.opt-toggle:hover{color:var(--ink);}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.anon-pill{display:inline-flex;align-items:center;gap:6px;background:var(--paper-warm);border:1px solid var(--rule);padding:4px 10px;border-radius:2px;font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-faint);margin-bottom:20px;}
+.spinner{display:block;width:24px;height:24px;border:2px solid var(--rule);border-top-color:var(--ink);border-radius:50%;animation:spin .7s linear infinite;margin:32px auto;}
+@keyframes spin{to{transform:rotate(360deg)}}
+footer{background:var(--ink);color:#aaa;padding:24px 32px;font-family:'DM Mono',monospace;font-size:11px;}
+.footer-inner{max-width:var(--col-width);margin:0 auto;display:flex;justify-content:space-between;align-items:center;}
+.footer-brand{font-family:'Playfair Display',serif;font-size:20px;font-weight:900;color:#f0ece4;}
+.footer-brand span{color:var(--red);}
+.footer-links{display:flex;gap:24px;list-style:none;}
+.footer-links a{color:#666;text-decoration:none;}
+.footer-links a:hover{color:#f0ece4;}
+@media(max-width:900px){
+  .page-hero,.boards-grid{grid-template-columns:1fr;}
+  .board-left{border-right:none;border-bottom:1px solid var(--rule);}
+  .intro-inner{grid-template-columns:1fr;}
+  .brand-pillars{display:none;}
+  .page-title{font-size:36px;}
+  .two-col,.stars-grid{grid-template-columns:1fr 1fr;}
+  .exp-scores{grid-template-columns:repeat(3,1fr);}
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-top">
+    <div class="live-badge"><div class="live-dot"></div>Live Submissions</div>
+    <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-faint);">⚖️ All content is personal opinion only</div>
+    <div id="authChip">
+      <button onclick="openAuthModal()" style="background:var(--ink);color:var(--paper);border:none;padding:5px 14px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:2px;">Sign In</button>
+    </div>
+  </div>
+  <div class="masthead-brand">
+    <a href="/" class="wordmark">Layoff<span>Trends</span></a>
+    <div class="brand-pillars">
+      <a href="/" class="brand-pillar">📊 Know the Market</a>
+      <a href="/jobs.html" class="brand-pillar">💼 Find Jobs</a>
+      <a href="/whisper.html" class="brand-pillar active">🔊 Share Your Experience</a>
+    </div>
+  </div>
+  <nav class="masthead-nav">
+    <a href="/">Live Dashboard</a><a href="/sectors.html">Sector Analysis</a>
+    <a href="/regional.html">Regional Data</a><a href="/news.html">Latest News</a>
+    <a href="/whisper.html" class="active">Whisper Network</a>
+    <a href="/jobs.html">Jobs & Learning</a><a href="/about.html">About</a>
+  </nav>
+</header>
+
+<!-- AUTH MODAL -->
+<div class="modal-overlay" id="authModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeAuthModal()">×</button>
+    <div class="modal-pad">
+      <div class="modal-eyebrow">Join the Whisper Network</div>
+      <div class="modal-title" id="authTitle">Sign In to Submit</div>
+      <div class="modal-sub" id="authSub">Your identity is never shown publicly — only your role and company if you choose.</div>
+      <div id="googleBtn" style="margin-bottom:10px;"></div>
+      <button class="auth-btn" onclick="twitterLogin()">
+        <svg class="auth-icon" viewBox="0 0 24 24" fill="#000"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        Continue with X / Twitter
+      </button>
+      <div class="divider"><span>or use email</span></div>
+      <label class="form-lbl">Email</label>
+      <input class="form-inp" id="authEmail" type="email" placeholder="you@email.com" />
+      <label class="form-lbl" id="nameLabel" style="display:none;">Your Name</label>
+      <input class="form-inp" id="authName" type="text" placeholder="Your name" style="display:none;" />
+      <label class="form-lbl">Password</label>
+      <input class="form-inp" id="authPassword" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')emailAuth()" />
+      <div class="form-err" id="authErr"></div>
+      <button class="primary-btn" id="authSubmitBtn" onclick="emailAuth()">Sign In →</button>
+      <div class="modal-toggle" onclick="toggleAuthMode()">Don't have an account? Create one free</div>
+    </div>
+  </div>
+</div>
+
+<!-- SHARE MODAL -->
+<div class="modal-overlay" id="shareModal">
+  <div class="modal-box wide">
+    <button class="modal-close" onclick="closeShareModal()">×</button>
+    <div class="modal-pad">
+      <div class="modal-eyebrow">Whisper Network</div>
+      <div class="modal-title">Share Your Experience</div>
+      <div class="anon-pill">🔒 Anonymous · Opinion only — not verified fact</div>
+      <div id="shareFormWrap">
+        <div class="two-col" style="margin-bottom:14px;">
+          <div><label class="form-lbl">Company Name *</label><input class="form-inp" id="mCompany" type="text" placeholder="e.g. Intel, Spotify" style="margin-bottom:0;" /></div>
+          <div><label class="form-lbl">Sector</label>
+            <select class="form-inp" id="mSector" style="margin-bottom:0;">
+              <option value="">Select...</option><option>Technology</option><option>Finance</option>
+              <option>Healthcare</option><option>Retail</option><option>Media</option>
+              <option>Manufacturing</option><option>Other</option>
+            </select>
+          </div>
+        </div>
+        <label class="form-lbl">Overall — How did they handle it? *</label>
+        <div class="verdict-row">
+          <div class="vo" id="vBad"  onclick="selectV('bad')"><span class="vo-emoji">😤</span><span class="vo-lbl">Badly</span></div>
+          <div class="vo" id="vOk"   onclick="selectV('ok')"><span class="vo-emoji">😐</span><span class="vo-lbl">Mixed</span></div>
+          <div class="vo" id="vGood" onclick="selectV('good')"><span class="vo-emoji">😊</span><span class="vo-lbl">Well</span></div>
+        </div>
+        <label class="form-lbl">Rate Each Dimension (1 worst → 5 best)</label>
+        <div class="stars-grid">
+          <div class="star-col"><div class="star-lbl">Notice<br>Given</div><div class="star-row-m" data-dim="notice"><span class="star-m" data-val="1">★</span><span class="star-m" data-val="2">★</span><span class="star-m" data-val="3">★</span><span class="star-m" data-val="4">★</span><span class="star-m" data-val="5">★</span></div></div>
+          <div class="star-col"><div class="star-lbl">Severance<br>Package</div><div class="star-row-m" data-dim="severance"><span class="star-m" data-val="1">★</span><span class="star-m" data-val="2">★</span><span class="star-m" data-val="3">★</span><span class="star-m" data-val="4">★</span><span class="star-m" data-val="5">★</span></div></div>
+          <div class="star-col"><div class="star-lbl">Leadership<br>Comms</div><div class="star-row-m" data-dim="comms"><span class="star-m" data-val="1">★</span><span class="star-m" data-val="2">★</span><span class="star-m" data-val="3">★</span><span class="star-m" data-val="4">★</span><span class="star-m" data-val="5">★</span></div></div>
+          <div class="star-col"><div class="star-lbl">Outplacement<br>Support</div><div class="star-row-m" data-dim="outplacement"><span class="star-m" data-val="1">★</span><span class="star-m" data-val="2">★</span><span class="star-m" data-val="3">★</span><span class="star-m" data-val="4">★</span><span class="star-m" data-val="5">★</span></div></div>
+          <div class="star-col"><div class="star-lbl">Human<br>Treatment</div><div class="star-row-m" data-dim="humanity"><span class="star-m" data-val="1">★</span><span class="star-m" data-val="2">★</span><span class="star-m" data-val="3">★</span><span class="star-m" data-val="4">★</span><span class="star-m" data-val="5">★</span></div></div>
+        </div>
+        <label class="form-lbl">Your Story <span style="font-style:italic;color:var(--ink-faint);">(optional)</span></label>
+        <textarea class="form-inp" id="mStory" rows="4" placeholder="What happened? How was it communicated? Was severance fair? Don't include anything that could identify you." style="height:90px;resize:vertical;line-height:1.6;margin-bottom:10px;"></textarea>
+        <div class="opt-toggle" id="optToggle" onclick="toggleOpt()">▸ Add job title, location or LinkedIn (optional)</div>
+        <div id="optFields" style="display:none;margin-bottom:12px;">
+          <div class="two-col" style="margin-bottom:10px;">
+            <div><label class="form-lbl">Job Title / Dept</label><input class="form-inp" id="mTitle" type="text" placeholder="e.g. Senior Engineer" style="margin-bottom:0;" /></div>
+            <div><label class="form-lbl">Location</label><input class="form-inp" id="mLocation" type="text" placeholder="e.g. San Francisco" style="margin-bottom:0;" /></div>
+          </div>
+          <label class="form-lbl">LinkedIn URL (adds verified badge)</label>
+          <input class="form-inp" id="mLinkedin" type="url" placeholder="https://linkedin.com/in/..." style="margin-bottom:0;" />
+        </div>
+        <div class="form-err" id="shareErr" style="margin-top:8px;"></div>
+        <button class="primary-btn" style="margin-top:14px;" onclick="submitExp()">Submit Anonymously →</button>
+      </div>
+      <div id="shareSuccess" style="display:none;text-align:center;padding:24px 0;">
+        <div style="font-size:36px;margin-bottom:12px;">✓</div>
+        <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:8px;">Thank you. Experience added.</div>
+        <div style="font-size:13px;color:var(--ink-muted);margin-bottom:20px;">Your rating is now live on the leaderboard.</div>
+        <button onclick="resetShare()" style="background:none;border:1px solid var(--rule);padding:8px 20px;cursor:pointer;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;border-radius:2px;color:var(--ink-muted);">Submit Another</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="page-hero">
+  <div>
+    <div class="page-eyebrow">Real People · Real Experiences · Live Scores</div>
+    <h1 class="page-title">The Whisper<br>Network</h1>
+    <p class="page-sub">Companies get a live public score based on how they treated people during layoffs — severance, notice, communication, outplacement, and basic human decency. All content is personal opinion from people who were there.</p>
+  </div>
+  <div class="hero-stats">
+    <div class="hs"><div class="hs-val" id="statTotal">—</div><div class="hs-lbl">Experiences<br>Submitted</div></div>
+    <div class="hs"><div class="hs-val red" id="statBad">—</div><div class="hs-lbl">Handled<br>Badly</div></div>
+    <div class="hs"><div class="hs-val green" id="statGood">—</div><div class="hs-lbl">Handled<br>Well</div></div>
+    <div class="hs"><div class="hs-val" id="statCos">—</div><div class="hs-lbl">Companies<br>Rated</div></div>
+  </div>
+</div>
+
+<div class="main-wrap">
+  <!-- INTRO BAND -->
+  <div class="intro-band">
+    <div class="intro-inner">
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:8px;">🔊 Live Community Intelligence</div>
+        <div style="font-family:'Playfair Display',serif;font-size:28px;font-weight:900;color:#f0ece4;line-height:1.15;margin-bottom:8px;">Companies are being judged<br>by the people they let go.</div>
+        <div style="font-size:13px;color:#888;line-height:1.7;max-width:520px;">Click the percentages to filter and see exactly which companies are behind the numbers.</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;flex-shrink:0;">
+        <button class="pct-btn" onclick="filterFeed('bad')">
+          <div class="pct-num" id="pctBad">—</div>
+          <div class="pct-lbl">😤 Badly Handled</div>
+          <div class="pct-hint">Click to see companies →</div>
+        </button>
+        <button class="pct-btn good" onclick="filterFeed('good')">
+          <div class="pct-num" id="pctGood">—</div>
+          <div class="pct-lbl">😊 Well Handled</div>
+          <div class="pct-hint">Click to see companies →</div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SENTIMENT BAR -->
+  <div class="sentiment-band">
+    <div class="sb-label">
+      <span style="color:var(--red);">😤 Badly Handled</span>
+      <span style="font-size:9px;color:var(--ink-faint);">OVERALL MARKET SENTIMENT — LIVE</span>
+      <span style="color:var(--green);">Handled Well 😊</span>
+    </div>
+    <div class="sb-track"><div class="sb-bad" id="sentBad" style="width:50%"></div><div class="sb-good" id="sentGood" style="width:50%"></div></div>
+    <div class="sb-counts"><span class="bad" id="cntBad">— bad</span><span class="good" id="cntGood">— good</span></div>
+  </div>
+
+  <!-- LEADERBOARDS -->
+  <div class="section-head"><div class="section-title">Company Rankings</div><div class="section-sub">Live · Community scored</div></div>
+  <div class="boards-grid">
+    <div class="board board-left">
+      <span class="board-badge badge-shame">Wall of Shame</span>
+      <div class="board-title">Worst Handled Layoffs</div>
+      <div id="shameList"><div class="spinner"></div></div>
+    </div>
+    <div class="board">
+      <span class="board-badge badge-fame">Hall of Fame</span>
+      <div class="board-title">Best Handled Layoffs</div>
+      <div id="fameList"><div class="spinner"></div></div>
+    </div>
+  </div>
+
+  <!-- LEGAL -->
+  <div class="legal-bar">⚖️ <strong>Legal notice:</strong> All content represents personal opinions of individual contributors. LayoffTrends does not verify or make factual claims about any company. Scores reflect community sentiment only.</div>
+
+  <!-- FEED -->
+  <div class="section-head"><div class="section-title">Experience Feed</div><div class="section-sub" id="feedCount">Loading...</div></div>
+  <div class="feed-wrap">
+    <div class="feed-filters">
+      <div class="ff active" data-v="all"  onclick="filterFeed('all')">All Experiences</div>
+      <div class="ff"        data-v="bad"  onclick="filterFeed('bad')">😤 Badly Handled</div>
+      <div class="ff"        data-v="ok"   onclick="filterFeed('ok')">😐 Mixed</div>
+      <div class="ff"        data-v="good" onclick="filterFeed('good')">😊 Well Handled</div>
+    </div>
+    <div id="expFeed"><div class="spinner"></div></div>
+    <button class="load-more-btn" id="loadMoreBtn" style="display:none;" onclick="loadMore()">Load More →</button>
+  </div>
+</div>
+
+<!-- FAB -->
+<div class="fab"><button class="fab-btn" onclick="openShareFlow()">🔊 Share Your Experience</button></div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">Layoff<span>Trends</span></div>
+    <ul class="footer-links">
+      <li><a href="/">Dashboard</a></li><li><a href="/news.html">News</a></li>
+      <li><a href="/jobs.html">Jobs</a></li><li><a href="/about.html">About</a></li>
+    </ul>
+    <div style="color:#555;font-size:10px;">© 2026 LayoffTrends · No ads · No tracking</div>
+  </div>
+</footer>
+
+<script>
+const API='/api';
+const GOOGLE_CLIENT_ID='YOUR_GOOGLE_CLIENT_ID';
+let currentUser=null,currentToken=null,currentFilter='all',offset=0,authMode='login';
+let mVerdict='',mStars={notice:3,severance:3,comms:3,outplacement:3,humanity:3};
+
+// ── AUTH ─────────────────────────────────────────────────────────────────
+function loadAuth(){
+  try{const t=localStorage.getItem('lt_token'),u=localStorage.getItem('lt_user');
+  if(t&&u){currentToken=t;currentUser=JSON.parse(u);renderChip();}}catch(e){}
+}
+function saveAuth(t,u){currentToken=t;currentUser=u;localStorage.setItem('lt_token',t);localStorage.setItem('lt_user',JSON.stringify(u));renderChip();}
+function clearAuth(){currentToken=null;currentUser=null;localStorage.removeItem('lt_token');localStorage.removeItem('lt_user');renderChip();}
+function renderChip(){
+  const el=document.getElementById('authChip');
+  if(currentUser){
+    el.innerHTML=`<div class="user-chip">${currentUser.avatar?`<img class="user-avatar" src="${currentUser.avatar}"/>`:''}
+    <span>${currentUser.name||currentUser.email}</span>
+    <button class="signout-btn" onclick="clearAuth()">Sign out</button></div>`;
+  }else{
+    el.innerHTML=`<button onclick="openAuthModal()" style="background:var(--ink);color:var(--paper);border:none;padding:5px 14px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:2px;">Sign In</button>`;
+  }
+}
+function initGoogle(){
+  if(!window.google||GOOGLE_CLIENT_ID==='YOUR_GOOGLE_CLIENT_ID')return;
+  google.accounts.id.initialize({client_id:GOOGLE_CLIENT_ID,callback:async r=>{
+    try{const res=await fetch(`${API}/auth/google`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id_token:r.credential})});
+    const d=await res.json();
+    if(d.token){saveAuth(d.token,d.user);closeAuthModal();openShareModal();loadAll();}
+    else showAuthErr(d.error||'Google sign-in failed');}catch(e){showAuthErr('Network error');}
+  }});
+  google.accounts.id.renderButton(document.getElementById('googleBtn'),{theme:'outline',size:'large',width:'100%',text:'continue_with'});
+}
+function twitterLogin(){alert('Twitter/X OAuth requires a Twitter Developer App. Please use Google or Email sign-in for now.');}
+function toggleAuthMode(){
+  authMode=authMode==='login'?'register':'login';
+  const r=authMode==='register';
+  document.getElementById('authTitle').textContent=r?'Create Free Account':'Sign In to Submit';
+  document.getElementById('authSub').textContent=r?'Create a free account to share your experience. Your identity stays private.':'Your identity is never shown publicly — only your role and company if you choose.';
+  document.getElementById('nameLabel').style.display=r?'block':'none';
+  document.getElementById('authName').style.display=r?'block':'none';
+  document.getElementById('authSubmitBtn').textContent=r?'Create Account →':'Sign In →';
+  document.querySelector('.modal-toggle').textContent=r?'Already have an account? Sign in':"Don't have an account? Create one free";
+  document.getElementById('authErr').style.display='none';
+}
+function showAuthErr(m){const el=document.getElementById('authErr');el.textContent=m;el.style.display='block';}
+async function emailAuth(){
+  const email=document.getElementById('authEmail').value.trim();
+  const pw=document.getElementById('authPassword').value;
+  const name=document.getElementById('authName').value.trim();
+  if(!email||!pw){showAuthErr('Email and password required');return;}
+  const ep=authMode==='register'?'/auth/email/register':'/auth/email/login';
+  const body=authMode==='register'?{email,password:pw,name:name||email.split('@')[0]}:{email,password:pw};
+  document.getElementById('authSubmitBtn').textContent='Please wait...';
+  try{const r=await fetch(`${API}${ep}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  const d=await r.json();
+  document.getElementById('authSubmitBtn').textContent=authMode==='register'?'Create Account →':'Sign In →';
+  if(d.token){saveAuth(d.token,d.user);closeAuthModal();openShareModal();loadAll();}
+  else showAuthErr(d.error||'Sign in failed');}
+  catch(e){showAuthErr('Network error');document.getElementById('authSubmitBtn').textContent='Sign In →';}
+}
+function openAuthModal(){document.getElementById('authModal').classList.add('open');document.body.style.overflow='hidden';setTimeout(initGoogle,100);}
+function closeAuthModal(){document.getElementById('authModal').classList.remove('open');document.body.style.overflow='';}
+document.getElementById('authModal').addEventListener('click',e=>{if(e.target===document.getElementById('authModal'))closeAuthModal();});
+function openShareFlow(){if(!currentUser){openAuthModal();}else{openShareModal();}}
+function openShareModal(){document.getElementById('shareModal').classList.add('open');document.body.style.overflow='hidden';}
+function closeShareModal(){document.getElementById('shareModal').classList.remove('open');document.body.style.overflow='';}
+document.getElementById('shareModal').addEventListener('click',e=>{if(e.target===document.getElementById('shareModal'))closeShareModal();});
+
+// ── SHARE FORM ────────────────────────────────────────────────────────────
+function selectV(v){
+  mVerdict=v;
+  ['Bad','Ok','Good'].forEach(x=>{document.getElementById('v'+x).className='vo';});
+  const m={bad:'Bad',ok:'Ok',good:'Good'};
+  document.getElementById('v'+m[v]).classList.add('sel-'+v);
+}
+document.querySelectorAll('.star-row-m').forEach(row=>{
+  const dim=row.dataset.dim,stars=row.querySelectorAll('.star-m');
+  stars.forEach(s=>{
+    s.addEventListener('click',()=>{mStars[dim]=parseInt(s.dataset.val);stars.forEach(x=>x.classList.toggle('lit',parseInt(x.dataset.val)<=mStars[dim]));});
+    s.addEventListener('mouseenter',()=>{stars.forEach(x=>x.style.color=parseInt(x.dataset.val)<=parseInt(s.dataset.val)?'#f0b429':'');});
+    s.addEventListener('mouseleave',()=>{stars.forEach(x=>x.style.color=parseInt(x.dataset.val)<=mStars[dim]?'#f0b429':'');});
+  });
+});
+function toggleOpt(){const f=document.getElementById('optFields'),t=document.getElementById('optToggle'),o=f.style.display!=='none';f.style.display=o?'none':'block';t.textContent=o?'▸ Add job title, location or LinkedIn (optional)':'▾ Add job title, location or LinkedIn (optional)';}
+async function submitExp(){
+  const company=document.getElementById('mCompany').value.trim();
+  const err=document.getElementById('shareErr');
+  if(!company){err.textContent='Company name is required';err.style.display='block';return;}
+  if(!mVerdict){err.textContent='Please select how the layoff was handled';err.style.display='block';return;}
+  err.style.display='none';
+  const payload={company,sector:document.getElementById('mSector').value,verdict:mVerdict,scores:{...mStars},
+    story:document.getElementById('mStory').value.trim(),
+    title:document.getElementById('mTitle')?.value.trim()||'',
+    location:document.getElementById('mLocation')?.value.trim()||'',
+    linkedin:document.getElementById('mLinkedin')?.value.trim()||''};
+  try{const r=await fetch(`${API}/experiences`,{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${currentToken}`},body:JSON.stringify(payload)});
+  const d=await r.json();
+  if(r.ok){document.getElementById('shareFormWrap').style.display='none';document.getElementById('shareSuccess').style.display='block';loadAll();}
+  else{err.textContent=d.error||'Submission failed';err.style.display='block';}}
+  catch(e){err.textContent='Network error';err.style.display='block';}
+}
+function resetShare(){
+  mVerdict='';mStars={notice:3,severance:3,comms:3,outplacement:3,humanity:3};
+  ['mCompany','mStory','mTitle','mLocation','mLinkedin'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('mSector').value='';
+  document.querySelectorAll('.star-m').forEach(s=>{s.classList.remove('lit');s.style.color='';});
+  ['Bad','Ok','Good'].forEach(x=>{document.getElementById('v'+x).className='vo';});
+  document.getElementById('shareErr').style.display='none';
+  document.getElementById('shareFormWrap').style.display='block';
+  document.getElementById('shareSuccess').style.display='none';
+}
+
+// ── DATA ──────────────────────────────────────────────────────────────────
+async function loadStats(){
+  try{const r=await fetch(`${API}/experiences/stats`),d=await r.json();
+  document.getElementById('statTotal').textContent=d.total.toLocaleString();
+  document.getElementById('statBad').textContent=d.pct_bad+'%';
+  document.getElementById('statGood').textContent=d.pct_good+'%';
+  document.getElementById('statCos').textContent=d.companies.toLocaleString();
+  document.getElementById('pctBad').textContent=d.pct_bad+'%';
+  document.getElementById('pctGood').textContent=d.pct_good+'%';
+  document.getElementById('sentBad').style.width=d.pct_bad+'%';
+  document.getElementById('sentGood').style.width=d.pct_good+'%';
+  document.getElementById('cntBad').textContent=d.bad+' bad experiences';
+  document.getElementById('cntGood').textContent=d.good+' good experiences';
+  renderBoards(d.shame,d.fame);}catch(e){console.error(e);}
+}
+function renderBoards(shame,fame){
+  const row=(c,i,col)=>`<div class="co-row" onclick="filterFeed('all')">
+    <div class="co-rank">${i+1}</div>
+    <div class="co-info"><div class="co-name">${c.company}</div>
+    <div class="co-count">${c.count} review${c.count>1?'s':''}</div></div>
+    <div class="co-score-wrap"><div class="co-score ${col}">${Number(c.avg).toFixed(1)}</div>
+    <div class="co-score-lbl">/ 5.0</div>
+    <div class="co-meter"><div class="co-meter-fill" style="width:${c.avg/5*100}%;background:var(--${col==='red'?'red':'green'})"></div></div></div></div>`;
+  document.getElementById('shameList').innerHTML=shame.map((c,i)=>row(c,i,'red')).join('')||'<p style="color:var(--ink-faint);font-size:13px;padding:8px 0;">No data yet</p>';
+  document.getElementById('fameList').innerHTML=fame.map((c,i)=>row(c,i,'green')).join('')||'<p style="color:var(--ink-faint);font-size:13px;padding:8px 0;">No data yet</p>';
+}
+function renderCard(e){
+  const vc=e.verdict==='bad'?'verdict-bad':e.verdict==='good'?'verdict-good':'verdict-ok';
+  const vl=e.verdict==='bad'?'😤 Badly Handled':e.verdict==='good'?'😊 Well Handled':'😐 Mixed';
+  const bc=e.verdict==='bad'?'bad-border':e.verdict==='good'?'good-border':'';
+  const col=e.verdict==='bad'?'red':e.verdict==='good'?'green':'amber';
+  const dims=['notice','severance','comms','outplacement','humanity'];
+  const lbls=['Notice','Severance','Comms','Support','Treatment'];
+  const dots=dims.map((d,i)=>`<div class="score-box"><div class="score-box-lbl">${lbls[i]}</div><div class="score-dots">${[1,2,3,4,5].map(n=>`<span class="dot${n<=(e.scores[d]||3)?' '+col:''}"></span>`).join('')}</div></div>`).join('');
+  const author=[e.job_title,e.location].filter(Boolean).join(' · ')||'Anonymous';
+  const li=e.linkedin?` · <a href="${e.linkedin}" target="_blank" rel="noopener" style="color:var(--blue);text-decoration:none;">LinkedIn ↗</a>`:'';
+  const story=e.story&&e.story!=='(No written experience provided.)'?`<div class="exp-story ${bc}">"${e.story}"</div>`:'';
+  const voted=localStorage.getItem('voted_'+e.id)==='1';
+  return `<div class="exp-card" id="card-${e.id}">
+    <div class="exp-header">
+      <div><div class="exp-company">${e.company}</div>
+      <div class="exp-meta">${e.sector||''} · ${e.time} · <em style="color:var(--ink-faint);">Personal opinion</em></div></div>
+      <div class="exp-verdict ${vc}">${vl}</div>
+    </div>
+    ${story}
+    <div class="exp-scores">${dots}</div>
+    <div class="exp-footer">
+      <div class="exp-author">${author}${li}</div>
+      <div style="display:flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-faint);">
+        <span id="hc-${e.id}">${e.helpful_count} found helpful</span>
+        <button class="helpful-btn${voted?' voted':''}" onclick="markHelpful(${e.id},this)">${voted?'✓':'Helpful'}</button>
+      </div>
+    </div>
+  </div>`;
+}
+async function loadFeed(reset=false){
+  if(reset){offset=0;document.getElementById('expFeed').innerHTML='<div class="spinner"></div>';}
+  const p=new URLSearchParams({limit:10,offset});
+  if(currentFilter!=='all')p.set('verdict',currentFilter);
+  try{const r=await fetch(`${API}/experiences?${p}`),d=await r.json();
+  const feed=document.getElementById('expFeed');
+  if(reset)feed.innerHTML='';
+  if(!d.experiences.length&&reset){feed.innerHTML='<p style="color:var(--ink-muted);font-size:13px;padding:24px 0;">No experiences match this filter yet.</p>';}
+  else{feed.insertAdjacentHTML('beforeend',d.experiences.map(renderCard).join(''));}
+  offset+=d.experiences.length;
+  document.getElementById('feedCount').textContent=`${offset} experience${offset!==1?'s':''}`;
+  document.getElementById('loadMoreBtn').style.display=d.experiences.length<10?'none':'block';}
+  catch(e){document.getElementById('expFeed').innerHTML='<p style="color:var(--ink-muted);font-size:13px;padding:24px 0;">Could not load experiences. Please refresh.</p>';}
+}
+function filterFeed(v){
+  currentFilter=v;
+  document.querySelectorAll('.ff').forEach(f=>f.classList.remove('active'));
+  const tab=document.querySelector(`.ff[data-v="${v}"]`);
+  if(tab)tab.classList.add('active');
+  loadFeed(true);
+  document.getElementById('expFeed').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function loadMore(){loadFeed(false);}
+async function markHelpful(id,btn){
+  if(localStorage.getItem('voted_'+id)==='1')return;
+  if(!currentToken){openAuthModal();return;}
+  try{const r=await fetch(`${API}/experiences/${id}/helpful`,{method:'POST',headers:{'Authorization':`Bearer ${currentToken}`}});
+  if(r.ok){localStorage.setItem('voted_'+id,'1');const c=document.getElementById('hc-'+id);c.textContent=(parseInt(c.textContent)+1)+' found helpful';btn.classList.add('voted');btn.textContent='✓';}}
+  catch(e){}
+}
+function loadAll(){loadStats();loadFeed(true);}
+loadAuth();loadAll();
+</script>
+</body>
+</html>

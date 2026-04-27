@@ -1,0 +1,1500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LayoffTrends — Live 2026 Tech Layoff Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0f0f;
+    --ink-muted: #4a4a4a;
+    --ink-faint: #9a9a9a;
+    --paper: #f7f4ef;
+    --paper-warm: #ede9e2;
+    --rule: #d4cfc7;
+    --accent-red: #c8352a;
+    --accent-amber: #d4820a;
+    --accent-green: #2a7d4f;
+    --accent-blue: #1a4d8c;
+    --live-pulse: #c8352a;
+    --col-width: 1200px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── MASTHEAD ── */
+  .masthead {
+    border-bottom: 3px solid var(--ink);
+    background: var(--paper);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .masthead-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 32px;
+    border-bottom: 1px solid var(--rule);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-muted);
+    letter-spacing: 0.04em;
+  }
+
+  .live-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--accent-red);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 10px;
+  }
+
+  .live-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--accent-red);
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.85); }
+  }
+
+  .masthead-brand {
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .wordmark {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 36px;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    text-decoration: none;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .wordmark span {
+    color: var(--accent-red);
+  }
+
+  .tagline {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .brand-pillars {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .brand-pillar {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink-muted);
+    text-decoration: none;
+    padding: 10px 20px;
+    border: 2px solid var(--rule);
+    border-radius: 3px;
+    letter-spacing: 0.01em;
+    transition: all 0.15s;
+    white-space: nowrap;
+    line-height: 1;
+  }
+
+  .brand-pillar:hover {
+    background: var(--paper-warm);
+    color: var(--ink);
+    border-color: var(--ink);
+    transform: translateY(-1px);
+  }
+
+  .brand-pillar.active {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+
+  @media (max-width: 900px) {
+    .brand-pillars { display: none; }
+  }
+
+  .masthead-nav {
+    display: flex;
+    gap: 0;
+    border-top: 1px solid var(--rule);
+    padding: 0 24px;
+    overflow-x: auto;
+  }
+
+  .masthead-nav a {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    text-decoration: none;
+    padding: 10px 14px;
+    border-right: 1px solid var(--rule);
+    white-space: nowrap;
+    transition: color 0.15s, background 0.15s;
+  }
+
+  .masthead-nav a:first-child { border-left: 1px solid var(--rule); }
+  .masthead-nav a:hover, .masthead-nav a.active { color: var(--ink); background: var(--paper-warm); }
+
+  /* ── TICKER ── */
+  .ticker-bar {
+    background: var(--ink);
+    color: #f0ece4;
+    padding: 7px 0;
+    overflow: hidden;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+  }
+
+  .ticker-inner {
+    display: flex;
+    gap: 0;
+    white-space: nowrap;
+    animation: ticker 28s linear infinite;
+  }
+
+  .ticker-inner:hover { animation-play-state: paused; }
+
+  @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .ticker-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 32px;
+    border-right: 1px solid #333;
+  }
+
+  .ticker-co { color: #f0ece4; font-weight: 500; }
+  .ticker-neg { color: #f47272; }
+  .ticker-pos { color: #5ec98a; }
+  .ticker-neu { color: #aaa; }
+
+  /* ── HERO GRID ── */
+  .hero {
+    max-width: var(--col-width);
+    margin: 0 auto;
+    padding: 36px 32px 0;
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 0;
+    border-left: 1px solid var(--rule);
+    border-right: 1px solid var(--rule);
+  }
+
+  .hero-main {
+    border-right: 1px solid var(--rule);
+    padding-right: 36px;
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent-red);
+    margin-bottom: 12px;
+  }
+
+  .hero-headline {
+    font-family: 'Playfair Display', serif;
+    font-size: 52px;
+    font-weight: 900;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 16px;
+  }
+
+  .hero-subline {
+    font-size: 15px;
+    color: var(--ink-muted);
+    line-height: 1.65;
+    max-width: 560px;
+    margin-bottom: 28px;
+    border-top: 1px solid var(--rule);
+    padding-top: 16px;
+  }
+
+  /* ── KPI STRIP ── */
+  .kpi-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-top: 2px solid var(--ink);
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 32px;
+  }
+
+  .kpi {
+    padding: 18px 20px 16px;
+    border-right: 1px solid var(--rule);
+    position: relative;
+  }
+
+  .kpi:last-child { border-right: none; }
+
+  .kpi-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 6px;
+  }
+
+  .kpi-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--ink);
+  }
+
+  .kpi-delta {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    margin-top: 4px;
+  }
+
+  .kpi-delta.neg { color: var(--accent-red); }
+  .kpi-delta.pos { color: var(--accent-green); }
+
+  /* ── SPARK CHART (canvas) ── */
+  .spark-wrap {
+    margin-bottom: 28px;
+  }
+
+  .chart-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 8px;
+  }
+
+  canvas#sparkChart {
+    width: 100%;
+    height: 120px;
+    display: block;
+  }
+
+  /* ── SIDEBAR ── */
+  .hero-aside {
+    padding-left: 28px;
+  }
+
+  .aside-block {
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .aside-block:last-child { border-bottom: none; }
+
+  .aside-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 14px;
+  }
+
+  /* Sentiment list */
+  .sentiment-list { list-style: none; }
+
+  .sentiment-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 0;
+    border-bottom: 1px dashed var(--rule);
+    font-size: 13px;
+  }
+
+  .sentiment-item:last-child { border-bottom: none; }
+
+  .senti-co {
+    font-weight: 600;
+    flex: 1;
+    color: var(--ink);
+    font-size: 12px;
+  }
+
+  .senti-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 2px;
+    font-weight: 500;
+  }
+
+  .tag-red { background: #fde8e8; color: var(--accent-red); }
+  .tag-amber { background: #fef3dc; color: var(--accent-amber); }
+  .tag-green { background: #e2f5ec; color: var(--accent-green); }
+  .tag-blue { background: #e0ecff; color: var(--accent-blue); }
+
+  .senti-bar-wrap {
+    width: 60px;
+    height: 3px;
+    background: var(--rule);
+    border-radius: 2px;
+  }
+
+  .senti-bar { height: 3px; border-radius: 2px; }
+
+  /* Whisper Feed */
+  .whisper-item {
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--rule);
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--ink-muted);
+  }
+
+  .whisper-item:last-child { border-bottom: none; }
+
+  .whisper-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: var(--ink-faint);
+    margin-top: 4px;
+  }
+
+  .whisper-co {
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  /* ── BODY GRID ── */
+  .body-grid {
+    max-width: var(--col-width);
+    margin: 0 auto;
+    padding: 32px 32px 48px;
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 0;
+    border-left: 1px solid var(--rule);
+    border-right: 1px solid var(--rule);
+    border-top: 2px solid var(--ink);
+  }
+
+  .body-main {
+    border-right: 1px solid var(--rule);
+    padding-right: 36px;
+  }
+
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .section-link {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    text-decoration: none;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .section-link:hover { color: var(--ink); border-color: var(--ink); }
+
+  /* Sector bars */
+  .sector-grid { margin-bottom: 32px; }
+
+  .sector-row {
+    display: grid;
+    grid-template-columns: 140px 1fr 80px;
+    align-items: center;
+    gap: 14px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .sector-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+
+  .sector-bar-track {
+    height: 8px;
+    background: var(--paper-warm);
+    border-radius: 1px;
+    overflow: hidden;
+  }
+
+  .sector-bar-fill {
+    height: 100%;
+    border-radius: 1px;
+    background: var(--ink);
+    transition: width 1s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .sector-pct {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-muted);
+    text-align: right;
+  }
+
+  /* News cards */
+  .news-list { }
+
+  .news-card {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 14px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--rule);
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.12s;
+  }
+
+  .news-card:hover { background: var(--paper-warm); }
+  .news-card:first-child { padding-top: 0; }
+
+  .news-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--rule);
+    line-height: 1;
+    padding-top: 2px;
+  }
+
+  .news-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--ink);
+    margin-bottom: 5px;
+  }
+
+  .news-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-faint);
+    letter-spacing: 0.06em;
+  }
+
+  .news-excerpt {
+    font-size: 12px;
+    color: var(--ink-muted);
+    margin-top: 4px;
+    line-height: 1.55;
+  }
+
+  /* ── REGIONAL HEATMAP ── */
+  .heatmap {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-bottom: 28px;
+  }
+
+  .heat-cell {
+    background: var(--paper-warm);
+    border: 1px solid var(--rule);
+    padding: 14px 16px;
+    border-radius: 2px;
+  }
+
+  .heat-region {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 6px;
+  }
+
+  .heat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--ink);
+  }
+
+  .heat-label {
+    font-size: 11px;
+    color: var(--ink-muted);
+    margin-top: 3px;
+  }
+
+  .heat-intensity {
+    width: 100%;
+    height: 3px;
+    border-radius: 1px;
+    margin-top: 10px;
+    background: var(--ink);
+    opacity: 0.15;
+  }
+
+  /* Body Sidebar */
+  .body-aside {
+    padding-left: 28px;
+  }
+
+  /* Monthly chart bars */
+  .monthly-chart {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 6px;
+    align-items: end;
+    height: 100px;
+    margin-bottom: 8px;
+  }
+
+  .month-bar-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    height: 100%;
+    justify-content: flex-end;
+  }
+
+  .month-bar {
+    width: 100%;
+    background: var(--ink);
+    border-radius: 1px 1px 0 0;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+  }
+
+  .month-bar:hover { opacity: 1; }
+  .month-bar.hi { background: var(--accent-red); opacity: 1; }
+
+  .month-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    color: var(--ink-faint);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    color: #aaa;
+    padding: 32px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+  }
+
+  .footer-inner {
+    max-width: var(--col-width);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 32px;
+  }
+
+  .footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 900;
+    color: #f0ece4;
+    margin-bottom: 10px;
+  }
+
+  .footer-brand span { color: var(--accent-red); }
+
+  .footer-links { list-style: none; }
+  .footer-links li { margin-bottom: 6px; }
+  .footer-links a { color: #888; text-decoration: none; letter-spacing: 0.04em; }
+  .footer-links a:hover { color: #f0ece4; }
+
+  .footer-bottom {
+    max-width: var(--col-width);
+    margin: 24px auto 0;
+    border-top: 1px solid #2a2a2a;
+    padding-top: 16px;
+    display: flex;
+    justify-content: space-between;
+    color: #555;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+  }
+
+  /* Animations */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(12px);
+    animation: fadeUp 0.6s ease forwards;
+  }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-in:nth-child(1) { animation-delay: 0.05s; }
+  .fade-in:nth-child(2) { animation-delay: 0.12s; }
+  .fade-in:nth-child(3) { animation-delay: 0.19s; }
+  .fade-in:nth-child(4) { animation-delay: 0.26s; }
+  .fade-in:nth-child(5) { animation-delay: 0.33s; }
+
+  @media (max-width: 900px) {
+    .hero, .body-grid { grid-template-columns: 1fr; }
+    .hero-main { border-right: none; padding-right: 0; margin-bottom: 32px; }
+    .hero-aside { padding-left: 0; border-top: 2px solid var(--ink); padding-top: 24px; }
+    .body-main { border-right: none; padding-right: 0; }
+    .body-aside { padding-left: 0; border-top: 1px solid var(--rule); margin-top: 32px; padding-top: 24px; }
+    .hero-headline { font-size: 38px; }
+    .footer-inner { grid-template-columns: 1fr; gap: 16px; }
+    .kpi-strip { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  /* ── WHISPER NETWORK CALLOUT ── */
+  .whisper-callout {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0;
+    background: var(--ink);
+    color: var(--paper);
+    text-decoration: none;
+    max-width: var(--col-width);
+    margin: 0 auto;
+    border-left: 1px solid #222;
+    border-right: 1px solid #222;
+    border-bottom: 3px solid var(--accent-red);
+    transition: background 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .whisper-callout::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 40px,
+      rgba(255,255,255,0.012) 40px,
+      rgba(255,255,255,0.012) 80px
+    );
+    pointer-events: none;
+  }
+
+  .whisper-callout:hover { background: #181818; }
+
+  .wc-left {
+    padding: 36px 40px;
+    border-right: 1px solid #2a2a2a;
+  }
+
+  .wc-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent-red);
+    margin-bottom: 14px;
+  }
+
+  .wc-pulse {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--accent-red);
+    animation: pulse 1.4s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+
+  .wc-headline {
+    font-family: 'Playfair Display', serif;
+    font-size: 34px;
+    font-weight: 900;
+    line-height: 1.1;
+    color: #f0ece4;
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+  }
+
+  .wc-sub {
+    font-size: 13px;
+    color: #888;
+    line-height: 1.7;
+    max-width: 480px;
+    margin-bottom: 28px;
+  }
+
+  .wc-stats {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    border-top: 1px solid #2a2a2a;
+    padding-top: 20px;
+  }
+
+  .wc-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding-right: 28px;
+  }
+
+  .wc-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1;
+    color: #f0ece4;
+  }
+
+  .wc-num.red { color: var(--accent-red); }
+  .wc-num.green { color: #5ec98a; }
+
+  .wc-lbl {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #555;
+  }
+
+  .wc-divider {
+    width: 1px;
+    height: 36px;
+    background: #2a2a2a;
+    margin-right: 28px;
+    flex-shrink: 0;
+  }
+
+  .wc-right {
+    padding: 36px 36px 36px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-width: 340px;
+  }
+
+  .wc-boards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .wc-board {
+    border: 1px solid #2a2a2a;
+    padding: 14px 16px;
+    border-radius: 2px;
+  }
+
+  .wc-board.shame { border-top: 2px solid var(--accent-red); }
+  .wc-board.fame  { border-top: 2px solid #5ec98a; }
+
+  .wc-board-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #666;
+    margin-bottom: 12px;
+  }
+
+  .wc-co-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 0;
+    border-bottom: 1px solid #1e1e1e;
+  }
+  .wc-co-row:last-child { border-bottom: none; }
+
+  .wc-co-rank {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: #444;
+    width: 14px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .wc-co-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: #ccc;
+    flex: 1;
+  }
+
+  .wc-score {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .wc-score.red { color: var(--accent-red); }
+  .wc-score.green { color: #5ec98a; }
+
+  .wc-cta {
+    background: var(--accent-red);
+    color: white;
+    text-align: center;
+    padding: 13px 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    border-radius: 2px;
+    transition: background 0.15s;
+  }
+
+  .whisper-callout:hover .wc-cta { background: #a82820; }
+
+  @media (max-width: 900px) {
+    .whisper-callout { grid-template-columns: 1fr; }
+    .wc-left { border-right: none; border-bottom: 1px solid #2a2a2a; padding: 28px 20px; }
+    .wc-right { min-width: unset; padding: 24px 20px; }
+    .wc-headline { font-size: 26px; }
+    .wc-stats { flex-wrap: wrap; gap: 16px; }
+    .wc-divider { display: none; }
+    .wc-stat { padding-right: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="masthead-top">
+    <div class="live-badge">
+      <div class="live-dot"></div>
+      Live Data Feed
+    </div>
+    <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-faint);letter-spacing:0.04em;">Updated every 2 hours</div>
+    <div style="display:flex;gap:16px;align-items:center;">
+      <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Flayofftrends.com" target="_blank" style="color:var(--ink-muted);text-decoration:none;font-size:11px;">LinkedIn</a>
+      <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Flayofftrends.com&text=218%2C400%20jobs%20eliminated%20in%202026.%20Real-time%20layoff%20tracker%20%E2%80%94%20WARN%20filings%2C%20sector%20data%2C%20and%20the%20Whisper%20Network." target="_blank" style="color:var(--ink-muted);text-decoration:none;font-size:11px;">X / Twitter</a>
+      <a href="/whisper.html" style="background:var(--ink);color:var(--paper);padding:4px 12px;border-radius:2px;text-decoration:none;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;">Join Network</a>
+    </div>
+  </div>
+  <div class="masthead-brand">
+    <a href="/" class="wordmark">Layoff<span>Trends</span></a>
+    <div class="brand-pillars">
+      <a href="/" class="brand-pillar active">📊 Know the Market</a>
+      <a href="/jobs.html" class="brand-pillar">💼 Find Jobs</a>
+      <a href="/whisper.html" class="brand-pillar">🔊 Share Your Experience</a>
+    </div>
+  </div>
+  <nav class="masthead-nav">
+    <a href="/" class="active">Live Dashboard</a>
+    <a href="/sectors.html">Sector Analysis</a>
+    <a href="/regional.html">Regional Data</a>
+    <a href="/jobs.html">Jobs & Learning</a>
+    <a href="/whisper.html">Whisper Network</a>
+    <a href="/news.html">Latest News</a>
+    <a href="/about.html">About</a>
+  </nav>
+</header>
+
+<!-- TICKER -->
+<div class="ticker-bar">
+  <div class="ticker-inner" id="ticker">
+    <!-- doubled for seamless loop -->
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-main">
+    <div class="hero-eyebrow fade-in">2026 Annual Report · Updated Hourly</div>
+    <h1 class="hero-headline fade-in">218,400<br>Jobs Eliminated<br>This Year</h1>
+    <p class="hero-subline fade-in">Aggregated from verified WARN Act filings, authenticated corporate disclosures, and authenticated peer submissions across 47 industries. Data current as of 14:42 EST.</p>
+
+    <!-- KPI Strip -->
+    <div class="kpi-strip fade-in">
+      <div class="kpi">
+        <div class="kpi-label">Total Affected (2026)</div>
+        <div class="kpi-value">218.4K</div>
+        <div class="kpi-delta neg">↑ 34% vs 2025 YTD</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Active WARN Notices</div>
+        <div class="kpi-value">1,247</div>
+        <div class="kpi-delta neg">↑ 89 this week</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Companies Affected</div>
+        <div class="kpi-value">831</div>
+        <div class="kpi-delta neg">↑ 12 since Monday</div>
+      </div>
+    </div>
+
+    <!-- Spark -->
+    <div class="spark-wrap fade-in">
+      <div class="chart-label">Monthly Job Displacement — 2026 YTD</div>
+      <canvas id="sparkChart"></canvas>
+    </div>
+
+    <!-- Sector breakdown -->
+    <div class="section-head">
+      <div class="section-title">Displacement by Sector</div>
+      <a href="/sectors.html" class="section-link">Full breakdown →</a>
+    </div>
+    <div class="sector-grid">
+      <div class="sector-row">
+        <div class="sector-name">Technology</div>
+        <div class="sector-bar-track"><div class="sector-bar-fill" style="width:82%"></div></div>
+        <div class="sector-pct">82,400</div>
+      </div>
+      <div class="sector-row">
+        <div class="sector-name">Finance</div>
+        <div class="sector-bar-track"><div class="sector-bar-fill" style="width:58%"></div></div>
+        <div class="sector-pct">34,100</div>
+      </div>
+      <div class="sector-row">
+        <div class="sector-name">Healthcare</div>
+        <div class="sector-bar-track"><div class="sector-bar-fill" style="width:45%"></div></div>
+        <div class="sector-pct">22,600</div>
+      </div>
+      <div class="sector-row">
+        <div class="sector-name">Retail & e-Com</div>
+        <div class="sector-bar-track"><div class="sector-bar-fill" style="width:38%"></div></div>
+        <div class="sector-pct">19,800</div>
+      </div>
+      <div class="sector-row">
+        <div class="sector-name">Media</div>
+        <div class="sector-bar-track"><div class="sector-bar-fill" style="width:28%"></div></div>
+        <div class="sector-pct">14,500</div>
+      </div>
+      <div class="sector-row">
+        <div class="sector-name">Manufacturing</div>
+        <div class="sector-bar-track"><div class="sector-bar-fill" style="width:24%"></div></div>
+        <div class="sector-pct">12,100</div>
+      </div>
+      <div class="sector-row">
+        <div class="sector-name">Other</div>
+        <div class="sector-bar-track"><div class="sector-bar-fill" style="width:18%;opacity:0.4"></div></div>
+        <div class="sector-pct">32,900</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="hero-aside">
+
+    <!-- WHISPER NETWORK — FIRST AND BOLD -->
+    <div class="aside-block" style="border:2px solid var(--ink);padding:18px;margin-bottom:20px;background:var(--paper);">
+      <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:900;color:var(--ink);line-height:1.15;margin-bottom:8px;">Did Your Company Handle the Layoff Well<span style="color:var(--accent-red);">?</span></div>
+      <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent-red);margin-bottom:12px;">🔊 Whisper Network · Live Community Scores</div>
+      <p style="font-size:12px;color:var(--ink-muted);line-height:1.65;margin-bottom:14px;">Companies get a <strong style="color:var(--ink);">live public score</strong> based on how they treated people — severance, notice, communication, outplacement, and basic human decency. From the people who were there.</p>
+
+      <!-- Clickable stat tiles -->
+      <div style="display:flex;gap:8px;margin-bottom:14px;">
+        <a href="/whisper.html#badly-handled" style="flex:1;background:#fde8e8;border:2px solid #f5c6c4;padding:12px 10px;border-radius:2px;text-align:center;text-decoration:none;cursor:pointer;transition:all 0.15s;" onmouseover="this.style.borderColor='var(--accent-red)';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#f5c6c4';this.style.transform='translateY(0)'">
+          <div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--accent-red);line-height:1;">63%</div>
+          <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent-red);margin-top:3px;">😤 Badly Handled</div>
+          <div style="font-family:'DM Mono',monospace;font-size:8px;color:#aaa;margin-top:4px;">tap to see →</div>
+        </a>
+        <a href="/whisper.html#well-handled" style="flex:1;background:#e2f5ec;border:2px solid #b8dfc9;padding:12px 10px;border-radius:2px;text-align:center;text-decoration:none;cursor:pointer;transition:all 0.15s;" onmouseover="this.style.borderColor='var(--accent-green)';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#b8dfc9';this.style.transform='translateY(0)'">
+          <div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--accent-green);line-height:1;">37%</div>
+          <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent-green);margin-top:3px;">😊 Well Handled</div>
+          <div style="font-family:'DM Mono',monospace;font-size:8px;color:#aaa;margin-top:4px;">tap to see →</div>
+        </a>
+      </div>
+
+      <!-- Two contrast quotes -->
+      <div style="border:1px solid var(--rule);padding:10px 12px;margin-bottom:8px;font-size:12px;border-left:3px solid var(--accent-red);">
+        <strong style="font-size:13px;color:var(--ink);">Tesla</strong>
+        <span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--accent-red);float:right;letter-spacing:0.06em;">1.2 / 5.0</span>
+        <div style="color:var(--ink-muted);margin-top:4px;line-height:1.5;clear:both;">"Badge stopped working at 6am. No call. Just a Slack message."</div>
+      </div>
+      <div style="border:1px solid var(--rule);padding:10px 12px;margin-bottom:16px;font-size:12px;border-left:3px solid var(--accent-green);">
+        <strong style="font-size:13px;color:var(--ink);">Stripe</strong>
+        <span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--accent-green);float:right;letter-spacing:0.06em;">4.7 / 5.0</span>
+        <div style="color:var(--ink-muted);margin-top:4px;line-height:1.5;clear:both;">"14 weeks severance, COBRA paid 6 months. CEO called personally."</div>
+      </div>
+      <a href="/whisper.html" style="display:block;background:var(--accent-red);color:white;text-align:center;padding:12px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;border-radius:2px;font-weight:500;">Rate Your Company →</a>
+    </div>
+
+    <!-- MARKET SENTIMENT — BELOW -->
+    <div class="aside-block">
+      <div class="aside-title">Market Sentiment · Live</div>
+      <ul class="sentiment-list">
+        <li class="sentiment-item">
+          <div class="senti-co">Tesla</div>
+          <span class="senti-tag tag-red">Massive Cuts</span>
+          <div class="senti-bar-wrap"><div class="senti-bar" style="width:90%;background:var(--accent-red)"></div></div>
+        </li>
+        <li class="sentiment-item">
+          <div class="senti-co">Cisco</div>
+          <span class="senti-tag tag-amber">Restructuring</span>
+          <div class="senti-bar-wrap"><div class="senti-bar" style="width:65%;background:var(--accent-amber)"></div></div>
+        </li>
+        <li class="sentiment-item">
+          <div class="senti-co">Dell</div>
+          <span class="senti-tag tag-amber">Downsizing</span>
+          <div class="senti-bar-wrap"><div class="senti-bar" style="width:55%;background:var(--accent-amber)"></div></div>
+        </li>
+        <li class="sentiment-item">
+          <div class="senti-co">Stripe</div>
+          <span class="senti-tag tag-blue">Targeted Hire</span>
+          <div class="senti-bar-wrap"><div class="senti-bar" style="width:35%;background:var(--accent-blue)"></div></div>
+        </li>
+        <li class="sentiment-item">
+          <div class="senti-co">OpenAI</div>
+          <span class="senti-tag tag-green">Scaling</span>
+          <div class="senti-bar-wrap"><div class="senti-bar" style="width:80%;background:var(--accent-green)"></div></div>
+        </li>
+        <li class="sentiment-item">
+          <div class="senti-co">Nvidia</div>
+          <span class="senti-tag tag-green">Expansion</span>
+          <div class="senti-bar-wrap"><div class="senti-bar" style="width:95%;background:var(--accent-green)"></div></div>
+        </li>
+      </ul>
+    </div>
+
+  </aside>
+</section>
+
+<!-- WHISPER NETWORK CALLOUT -->
+<a href="/whisper.html" class="whisper-callout">
+  <div class="wc-left">
+    <div class="wc-eyebrow">
+      <span class="wc-pulse"></span>
+      Community · Anonymous · Live Scoring
+    </div>
+    <div class="wc-headline">Did Your Company Handle<br>the Layoff Well or Badly?</div>
+    <div class="wc-sub">The Whisper Network is where people who were laid off rate their company across 5 dimensions — severance, notice, leadership communication, outplacement support, and basic human treatment. Companies get a live public score. No spin. No PR. Just real people telling the truth.</div>
+    <div class="wc-stats">
+      <div class="wc-stat"><span class="wc-num red">63%</span><span class="wc-lbl">Badly Handled</span></div>
+      <div class="wc-divider"></div>
+      <div class="wc-stat"><span class="wc-num green">37%</span><span class="wc-lbl">Well Handled</span></div>
+      <div class="wc-divider"></div>
+      <div class="wc-stat"><span class="wc-num">847</span><span class="wc-lbl">Experiences Shared</span></div>
+      <div class="wc-divider"></div>
+      <div class="wc-stat"><span class="wc-num">94</span><span class="wc-lbl">Companies Rated</span></div>
+    </div>
+  </div>
+  <div class="wc-right">
+    <div class="wc-boards">
+      <div class="wc-board shame">
+        <div class="wc-board-label">😤 Wall of Shame</div>
+        <div class="wc-co-row"><span class="wc-co-rank">1</span><span class="wc-co-name">Tesla</span><span class="wc-score red">1.2</span></div>
+        <div class="wc-co-row"><span class="wc-co-rank">2</span><span class="wc-co-name">Meta</span><span class="wc-score red">1.8</span></div>
+        <div class="wc-co-row"><span class="wc-co-rank">3</span><span class="wc-co-name">Amazon</span><span class="wc-score red">2.1</span></div>
+      </div>
+      <div class="wc-board fame">
+        <div class="wc-board-label">😊 Hall of Fame</div>
+        <div class="wc-co-row"><span class="wc-co-rank">1</span><span class="wc-co-name">HubSpot</span><span class="wc-score green">4.8</span></div>
+        <div class="wc-co-row"><span class="wc-co-rank">2</span><span class="wc-co-name">Stripe</span><span class="wc-score green">4.7</span></div>
+        <div class="wc-co-row"><span class="wc-co-rank">3</span><span class="wc-co-name">Shopify</span><span class="wc-score green">4.5</span></div>
+      </div>
+    </div>
+    <div class="wc-cta">Share Your Experience →</div>
+  </div>
+</a>
+
+<!-- BODY CONTENT -->
+<div class="body-grid">
+  <div class="body-main">
+    <div class="section-head">
+      <div class="section-title">Global Restructuring News</div>
+      <a href="/news.html" class="section-link">All stories →</a>
+    </div>
+    <div class="news-list"><!-- LIVE_NEWS_START -->
+        <a href="https://fortune.com/2026/04/26/why-did-microsoft-do-buyouts-layoffs-tech-workers/" target="_blank" rel="noopener" class="news-card">
+          <div class="news-num">01</div>
+          <div>
+            <div class="news-title">More than 90,000 tech workers have been laid off this year. But here’s why companies like Microsoft are offering volunta</div>
+            <div class="news-meta">FORTUNE · 2026-04-26</div>
+            <div class="news-excerpt">Buyouts target specific kinds of employees, says employment lawyer Domenique Camacho Moran.</div>
+          </div>
+        </a>
+        <a href="https://economictimes.indiatimes.com/tech/technology/ai-will-kill-design-jobs-says-figma-investor-gokul-rajaram-industry-vigorously-disagrees/articleshow/130531702.cms" target="_blank" rel="noopener" class="news-card">
+          <div class="news-num">02</div>
+          <div>
+            <div class="news-title">AI will kill design jobs, says Figma investor Gokul Rajaram; industry vigorously disagrees</div>
+            <div class="news-meta">THE TIMES OF INDIA · 2026-04-26</div>
+            <div class="news-excerpt">Rajaram, who has invested in various tech companies, is best known for building Google’s advertising network AdSense and scaling it to over $1 billion in revenues. He currently ser</div>
+          </div>
+        </a>
+        <a href="http://futurism.com/artificial-intelligence/malus-clones-software-copyright" target="_blank" rel="noopener" class="news-card">
+          <div class="news-num">03</div>
+          <div>
+            <div class="news-title">Devious New AI Tool “Clones” Software So That the Original Creator Doesn’t Hold a Copyright Over the New Version</div>
+            <div class="news-meta">FUTURISM · 2026-04-26</div>
+            <div class="news-excerpt">&quot;I don’t think there’s any putting the genie back in the bottle at this point.&quot;
+The post Devious New AI Tool “Clones” Software So That the Original Creator Doesn’t Hold a Copyright</div>
+          </div>
+        </a>
+        <a href="https://alltoc.com/tech/why-did-meta-cut-10-of-jobs" target="_blank" rel="noopener" class="news-card">
+          <div class="news-num">04</div>
+          <div>
+            <div class="news-title">Why did Meta cut 10% of jobs? #tech</div>
+            <div class="news-meta">ALLTOC.COM · 2026-04-26</div>
+            <div class="news-excerpt">What happened and why it matters Meta announced it will cut about 10% of its workforce—roughly 8,000 jobs—and also said it would not fill thousands of open roles as it shifts spend</div>
+          </div>
+        </a>
+        <a href="https://www.businessinsider.com/bi-today-sunday-newsletter-cutting-employee-benefits-2026-4" target="_blank" rel="noopener" class="news-card">
+          <div class="news-num">05</div>
+          <div>
+            <div class="news-title">Cutting employee benefits is no longer off the table</div>
+            <div class="news-meta">BUSINESS INSIDER · 2026-04-26</div>
+            <div class="news-excerpt">In this Sunday edition of Business Insider Today, we're talking about major changes happening to workplace perks.</div>
+          </div>
+        </a>
+        <a href="https://economictimes.indiatimes.com/news/international/us/what-actually-changes-inside-a-company-before-layoffs-happen/articleshow/130529797.cms" target="_blank" rel="noopener" class="news-card">
+          <div class="news-num">06</div>
+          <div>
+            <div class="news-title">What Actually Changes Inside a Company Before Layoffs Happen</div>
+            <div class="news-meta">THE TIMES OF INDIA · 2026-04-26</div>
+            <div class="news-excerpt">Companies are making internal changes before layoffs. These include cost cuts and stricter performance reviews. Decision-making becomes centralized, and job duties may change. Comm</div>
+          </div>
+        </a><!-- LIVE_NEWS_END -->
+
+    <!-- Regional Heatmap -->
+    <div class="section-head" style="margin-top:36px;">
+      <div class="section-title">Regional Outlook</div>
+      <a href="/regional.html" class="section-link">Map view →</a>
+    </div>
+    <div class="heatmap">
+      <div class="heat-cell">
+        <div class="heat-region">United States</div>
+        <div class="heat-number">134,200</div>
+        <div class="heat-label">Jobs eliminated in 2026</div>
+        <div class="heat-intensity" style="opacity:0.8"></div>
+      </div>
+      <div class="heat-cell">
+        <div class="heat-region">India</div>
+        <div class="heat-number">38,400</div>
+        <div class="heat-label">Jobs eliminated in 2026</div>
+        <div class="heat-intensity" style="opacity:0.5"></div>
+      </div>
+      <div class="heat-cell">
+        <div class="heat-region">United Kingdom</div>
+        <div class="heat-number">21,800</div>
+        <div class="heat-label">Jobs eliminated in 2026</div>
+        <div class="heat-intensity" style="opacity:0.35"></div>
+      </div>
+      <div class="heat-cell">
+        <div class="heat-region">Germany</div>
+        <div class="heat-number">14,600</div>
+        <div class="heat-label">Jobs eliminated in 2026</div>
+        <div class="heat-intensity" style="opacity:0.25"></div>
+      </div>
+    </div>
+  </div>
+
+  <aside class="body-aside">
+    <div class="aside-block">
+      <div class="aside-title">Monthly Impact Variance — 2026</div>
+      <div class="monthly-chart" id="monthlyChart"></div>
+      <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px;">
+        <!-- labels rendered by JS -->
+      </div>
+    </div>
+
+    <div class="aside-block">
+      <div class="aside-title">5-Year Trajectory</div>
+      <canvas id="trendChart" style="width:100%;height:110px;display:block;"></canvas>
+      <div style="display:flex;justify-content:space-between;font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-faint);letter-spacing:0.06em;margin-top:6px;">
+        <span>2022</span><span>2023</span><span>2024</span><span>2025</span><span>2026</span>
+      </div>
+    </div>
+
+    <div class="aside-block">
+      <div class="aside-title">Resources</div>
+      <ul style="list-style:none;">
+        <li style="padding:8px 0;border-bottom:1px dashed var(--rule);font-size:12px;"><a href="https://www.dol.gov/agencies/eta/layoffs/warn" target="_blank" style="color:var(--ink);text-decoration:none;">→ File a WARN Notice Alert</a></li>
+        <li style="padding:8px 0;border-bottom:1px dashed var(--rule);font-size:12px;"><a href="/jobs.html" style="color:var(--ink);text-decoration:none;">→ Job Board & Transition Resources</a></li>
+        <li style="padding:8px 0;border-bottom:1px dashed var(--rule);font-size:12px;"><a href="/jobs.html" style="color:var(--ink);text-decoration:none;">→ Severance & Benefits Guide</a></li>
+        <li style="padding:8px 0;font-size:12px;"><a href="/about.html" style="color:var(--ink);text-decoration:none;">→ Download 2026 Annual Dataset</a></li>
+      </ul>
+    </div>
+  </aside>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">Layoff<span>Trends</span></div>
+      <p style="font-size:11px;line-height:1.7;">The independent source for real-time workforce displacement data. Aggregating WARN filings, corporate disclosures, and verified peer intelligence since 2021.</p>
+    </div>
+    <div>
+      <div style="color:#f0ece4;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:12px;">Navigation</div>
+      <ul class="footer-links">
+        <li><a href="/">Live Dashboard</a></li>
+        <li><a href="/sectors.html">Sector Analysis</a></li>
+        <li><a href="/regional.html">Regional Data</a></li>
+        <li><a href="/whisper.html">Whisper Network</a></li>
+        <li><a href="/jobs.html">Jobs & Learning</a></li>
+        <li><a href="https://www.dol.gov/agencies/eta/layoffs/warn" target="_blank">WARN Filings</a></li>
+      </ul>
+    </div>
+    <div>
+      <div style="color:#f0ece4;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:12px;">Company</div>
+      <ul class="footer-links">
+        <li><a href="/about.html">About Us</a></li>
+        <li><a href="/about.html">Privacy Policy</a></li>
+        <li><a href="/about.html">Terms of Service</a></li>
+        <li><a href="/about.html">Data Methodology</a></li>
+        <li><a href="/whisper.html">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 LayoffTrends · Market Intelligence. Empowering the modern workforce.</span>
+    <span>Data refreshed hourly · Not financial advice</span>
+  </div>
+</footer>
+
+<script>
+// ── TICKER ──
+const tickerData = [
+  { co:'Tesla', val:'-14,000', cls:'neg' },
+  { co:'Intel', val:'-15,000', cls:'neg' },
+  { co:'Spotify', val:'-1,600', cls:'neg' },
+  { co:'Cisco', val:'-4,000', cls:'neg' },
+  { co:'Citigroup', val:'-4,200', cls:'neg' },
+  { co:'OpenAI', val:'+1,500', cls:'pos' },
+  { co:'Nvidia', val:'+8,200', cls:'pos' },
+  { co:'Stripe', val:'+600', cls:'pos' },
+  { co:'Dell', val:'-3,100', cls:'neg' },
+  { co:'Microsoft', val:'+2,400', cls:'pos' },
+  { co:'Accenture', val:'-1,800', cls:'neg' },
+  { co:'Meta', val:'watch', cls:'neu' },
+];
+
+function buildTicker() {
+  const inner = document.getElementById('ticker');
+  const items = [...tickerData, ...tickerData].map(d =>
+    `<span class="ticker-item"><span class="ticker-co">${d.co}</span><span class="ticker-${d.cls === 'neg' ? 'neg' : d.cls === 'pos' ? 'pos' : 'neu'}">${d.val}</span></span>`
+  ).join('');
+  inner.innerHTML = items;
+}
+buildTicker();
+
+// ── SPARK CHART ──
+function drawSparkChart() {
+  const canvas = document.getElementById('sparkChart');
+  if (!canvas) return;
+  const dpr = window.devicePixelRatio || 1;
+  const W = canvas.parentElement.clientWidth;
+  const H = 120;
+  canvas.width = W * dpr;
+  canvas.height = H * dpr;
+  canvas.style.width = W + 'px';
+  canvas.style.height = H + 'px';
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+
+  const data = [18200, 24100, 21800, 29400, 38100, 42300, 44500]; // Jan–present
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul'];
+  const max = Math.max(...data);
+  const pad = { t:10, r:8, b:28, l:48 };
+  const cw = W - pad.l - pad.r;
+  const ch = H - pad.t - pad.b;
+
+  const xAt = i => pad.l + (i / (data.length - 1)) * cw;
+  const yAt = v => pad.t + ch - (v / max) * ch;
+
+  // Grid lines
+  ctx.strokeStyle = '#e0dbd3';
+  ctx.lineWidth = 1;
+  [0, 0.5, 1].forEach(f => {
+    const y = pad.t + ch * (1 - f);
+    ctx.beginPath();
+    ctx.moveTo(pad.l, y);
+    ctx.lineTo(pad.l + cw, y);
+    ctx.stroke();
+    // y-labels
+    ctx.fillStyle = '#9a9a9a';
+    ctx.font = '9px "DM Mono"';
+    ctx.textAlign = 'right';
+    ctx.fillText((max * f / 1000).toFixed(0) + 'K', pad.l - 6, y + 3);
+  });
+
+  // Area fill
+  const grad = ctx.createLinearGradient(0, pad.t, 0, pad.t + ch);
+  grad.addColorStop(0, 'rgba(200,53,42,0.18)');
+  grad.addColorStop(1, 'rgba(200,53,42,0)');
+  ctx.beginPath();
+  ctx.moveTo(xAt(0), yAt(data[0]));
+  data.forEach((v, i) => ctx.lineTo(xAt(i), yAt(v)));
+  ctx.lineTo(xAt(data.length - 1), pad.t + ch);
+  ctx.lineTo(xAt(0), pad.t + ch);
+  ctx.closePath();
+  ctx.fillStyle = grad;
+  ctx.fill();
+
+  // Line
+  ctx.beginPath();
+  ctx.moveTo(xAt(0), yAt(data[0]));
+  data.forEach((v, i) => ctx.lineTo(xAt(i), yAt(v)));
+  ctx.strokeStyle = '#c8352a';
+  ctx.lineWidth = 2;
+  ctx.lineJoin = 'round';
+  ctx.stroke();
+
+  // Dots + labels
+  data.forEach((v, i) => {
+    ctx.beginPath();
+    ctx.arc(xAt(i), yAt(v), 3, 0, Math.PI * 2);
+    ctx.fillStyle = '#c8352a';
+    ctx.fill();
+    ctx.fillStyle = '#4a4a4a';
+    ctx.font = '9px "DM Mono"';
+    ctx.textAlign = 'center';
+    ctx.fillText(months[i], xAt(i), H - 6);
+  });
+}
+
+// ── TREND CHART ──
+function drawTrendChart() {
+  const canvas = document.getElementById('trendChart');
+  if (!canvas) return;
+  const dpr = window.devicePixelRatio || 1;
+  const W = canvas.parentElement.clientWidth;
+  const H = 110;
+  canvas.width = W * dpr;
+  canvas.height = H * dpr;
+  canvas.style.width = W + 'px';
+  canvas.style.height = H + 'px';
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+
+  const yearly = [120000, 168000, 241000, 189000, 218400];
+  const max = Math.max(...yearly);
+  const pad = { t:8, r:8, b:20, l:42 };
+  const cw = W - pad.l - pad.r;
+  const ch = H - pad.t - pad.b;
+
+  const xAt = i => pad.l + (i / (yearly.length - 1)) * cw;
+  const yAt = v => pad.t + ch - (v / max) * ch;
+
+  // Grid
+  ctx.strokeStyle = '#e0dbd3';
+  ctx.lineWidth = 1;
+  [0, 0.5, 1].forEach(f => {
+    const y = pad.t + ch * (1 - f);
+    ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(pad.l + cw, y); ctx.stroke();
+    ctx.fillStyle = '#9a9a9a'; ctx.font = '9px "DM Mono"'; ctx.textAlign = 'right';
+    ctx.fillText((max * f / 1000).toFixed(0) + 'K', pad.l - 4, y + 3);
+  });
+
+  // Area
+  const grad = ctx.createLinearGradient(0, pad.t, 0, pad.t + ch);
+  grad.addColorStop(0, 'rgba(15,15,15,0.12)');
+  grad.addColorStop(1, 'rgba(15,15,15,0)');
+  ctx.beginPath();
+  ctx.moveTo(xAt(0), yAt(yearly[0]));
+  yearly.forEach((v, i) => ctx.lineTo(xAt(i), yAt(v)));
+  ctx.lineTo(xAt(yearly.length - 1), pad.t + ch);
+  ctx.lineTo(xAt(0), pad.t + ch);
+  ctx.closePath();
+  ctx.fillStyle = grad; ctx.fill();
+
+  // Line
+  ctx.beginPath();
+  ctx.moveTo(xAt(0), yAt(yearly[0]));
+  yearly.forEach((v, i) => ctx.lineTo(xAt(i), yAt(v)));
+  ctx.strokeStyle = '#0f0f0f'; ctx.lineWidth = 2; ctx.lineJoin = 'round'; ctx.stroke();
+
+  // Dots
+  yearly.forEach((v, i) => {
+    ctx.beginPath(); ctx.arc(xAt(i), yAt(v), 3, 0, Math.PI * 2);
+    ctx.fillStyle = i === yearly.length - 1 ? '#c8352a' : '#0f0f0f'; ctx.fill();
+  });
+}
+
+// ── MONTHLY BAR CHART ──
+function buildMonthlyBars() {
+  const container = document.getElementById('monthlyChart');
+  if (!container) return;
+  const months = ['Jan','Feb','Mar','Apr','May','Jun'];
+  const vals = [18200, 24100, 21800, 29400, 38100, 42300];
+  const max = Math.max(...vals);
+  container.innerHTML = months.map((m, i) => {
+    const pct = (vals[i] / max) * 100;
+    const hi = vals[i] === max ? 'hi' : '';
+    return `<div class="month-bar-wrap">
+      <div class="month-bar ${hi}" style="height:${pct}%"></div>
+      <div class="month-label">${m}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── INIT ──
+window.addEventListener('load', () => {
+  drawSparkChart();
+  drawTrendChart();
+  buildMonthlyBars();
+});
+
+window.addEventListener('resize', () => {
+  drawSparkChart();
+  drawTrendChart();
+});
+</script>
+</body>
+</html>

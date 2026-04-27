@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Latest News — LayoffTrends</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+
+  :root {
+    --ink: #0f0f0f;
+    --ink-muted: #4a4a4a;
+    --ink-faint: #9a9a9a;
+    --paper: #f7f4ef;
+    --paper-warm: #ede9e2;
+    --rule: #d4cfc7;
+    --accent-red: #c8352a;
+    --accent-amber: #d4820a;
+    --accent-green: #2a7d4f;
+    --accent-blue: #1a4d8c;
+    --col-width: 1200px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--paper); color: var(--ink); font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.6; }
+  .masthead { border-bottom: 3px solid var(--ink); background: var(--paper); position: sticky; top: 0; z-index: 100; }
+  .masthead-top { display: flex; align-items: center; justify-content: space-between; padding: 10px 32px; border-bottom: 1px solid var(--rule); font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-muted); letter-spacing: 0.04em; }
+  .live-badge { display: flex; align-items: center; gap: 6px; color: var(--accent-red); font-weight: 500; text-transform: uppercase; letter-spacing: 0.12em; font-size: 10px; }
+  .live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent-red); animation: pulse 1.4s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.85)} }
+  .masthead-brand { padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .wordmark { font-family: 'Playfair Display', serif; font-weight: 900; font-size: 36px; letter-spacing: -0.03em; color: var(--ink); text-decoration: none; line-height: 1; flex-shrink: 0; }
+  .wordmark span { color: var(--accent-red); }
+  .brand-pillars { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .brand-pillar { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; color: var(--ink-muted); text-decoration: none; padding: 7px 16px; border: 1px solid var(--rule); border-radius: 2px; letter-spacing: 0.01em; transition: all 0.15s; white-space: nowrap; }
+  .brand-pillar:hover { background: var(--paper-warm); color: var(--ink); border-color: var(--ink-muted); }
+  .brand-pillar.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  @media(max-width:900px){ .brand-pillars { display: none; } }
+  .masthead-nav { display: flex; border-top: 1px solid var(--rule); padding: 0 24px; overflow-x: auto; }
+  .masthead-nav a { font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-muted); text-decoration: none; padding: 10px 14px; border-right: 1px solid var(--rule); white-space: nowrap; transition: color .15s, background .15s; }
+  .masthead-nav a:first-child { border-left: 1px solid var(--rule); }
+  .masthead-nav a:hover, .masthead-nav a.active { color: var(--ink); background: var(--paper-warm); }
+  .page-hero { max-width: var(--col-width); margin: 0 auto; padding: 40px 32px 32px; border-left: 1px solid var(--rule); border-right: 1px solid var(--rule); border-bottom: 2px solid var(--ink); }
+  .page-eyebrow { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent-red); margin-bottom: 10px; }
+  .page-title { font-family: 'Playfair Display', serif; font-size: 44px; font-weight: 900; line-height: 1.08; letter-spacing: -0.02em; margin-bottom: 12px; }
+  .page-sub { font-size: 15px; color: var(--ink-muted); max-width: 600px; line-height: 1.65; }
+  .page-body { max-width: var(--col-width); margin: 0 auto; padding: 36px 32px 60px; border-left: 1px solid var(--rule); border-right: 1px solid var(--rule); }
+  .section-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--ink); margin-top: 40px; }
+  .section-head:first-child { margin-top: 0; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; }
+  footer { background: var(--ink); color: #aaa; padding: 32px; font-family: 'DM Mono', monospace; font-size: 11px; margin-top: 60px; }
+  .footer-inner { max-width: var(--col-width); margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+  .footer-brand { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 900; color: #f0ece4; }
+  .footer-brand span { color: var(--accent-red); }
+  .footer-links { display: flex; gap: 24px; list-style: none; }
+  .footer-links a { color: #888; text-decoration: none; }
+  .footer-links a:hover { color: #f0ece4; }
+  .tag { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; font-weight: 500; }
+  .tag-red { background:#fde8e8;color:var(--accent-red) }
+  .tag-amber { background:#fef3dc;color:var(--accent-amber) }
+  .tag-green { background:#e2f5ec;color:var(--accent-green) }
+  .tag-blue { background:#e0ecff;color:var(--accent-blue) }
+  @media(max-width:768px){
+    .masthead-brand{padding:12px 16px;}
+    .page-hero,.page-body{padding-left:16px;padding-right:16px;}
+    .page-title{font-size:32px;}
+    .footer-inner{flex-direction:column;gap:16px;}
+  }
+
+
+  .news-filters { display: flex; gap: 0; border-bottom: 1px solid var(--rule); margin-bottom: 32px; overflow-x: auto; }
+  .news-filters a { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; padding: 10px 18px; color: var(--ink-muted); text-decoration: none; border-right: 1px solid var(--rule); white-space: nowrap; }
+  .news-filters a:hover, .news-filters a.active { background: var(--ink); color: var(--paper); }
+  .news-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .news-item { padding: 20px; border-bottom: 1px solid var(--rule); border-right: 1px solid var(--rule); text-decoration: none; color: inherit; display: block; }
+  .news-item:nth-child(even) { border-right: none; }
+  .news-item:hover { background: var(--paper-warm); }
+  .ni-source { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 8px; }
+  .ni-title { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; line-height: 1.3; margin-bottom: 8px; color: var(--ink); }
+  .ni-excerpt { font-size: 12px; color: var(--ink-muted); line-height: 1.6; }
+  .ni-date { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--ink-faint); margin-top: 10px; }
+  .no-results { padding: 40px; text-align: center; color: var(--ink-muted); font-size: 14px; }
+  @media(max-width:768px){ .news-grid{grid-template-columns:1fr;} .news-item{border-right:none;} }
+
+</style>
+</head>
+<body>
+<header class="masthead">
+  <div class="masthead-top">
+    <div class="live-badge"><div class="live-dot"></div>Live Data Feed</div>
+    <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-faint);letter-spacing:0.04em;">Updated every 2 hours</div>
+    <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--ink-faint);">layofftrends.com</div>
+  </div>
+  <div class="masthead-brand">
+    <a href="/" class="wordmark">Layoff<span>Trends</span></a>
+    <div class="brand-pillars">
+      <a href="/" class="brand-pillar active">📊 Know the Market</a>
+      <a href="/jobs.html" class="brand-pillar">💼 Find Jobs</a>
+      <a href="/whisper.html" class="brand-pillar">🔊 Share Your Experience</a>
+    </div>
+  </div>
+  <nav class="masthead-nav"><a href="/">Live Dashboard</a><a href="/sectors.html">Sector Analysis</a><a href="/regional.html">Regional Data</a><a href="/news.html" class="active">Latest News</a><a href="/whisper.html">Whisper Network</a><a href="/jobs.html">Jobs & Learning</a><a href="/about.html">About</a></nav>
+</header>
+<div class="page-hero">
+  <div class="page-eyebrow">Live Feed · Updated Every 2 Hours</div>
+  <h1 class="page-title">Latest Layoff News</h1>
+  <p class="page-sub">Aggregated from NewsAPI, TechCrunch, The Verge, and verified corporate disclosures. 24 articles currently tracked.</p>
+</div>
+<div class="page-body">
+  <div class="news-filters">
+    <a href="#" class="active">All</a>
+    <a href="#">Technology</a>
+    <a href="#">Finance</a>
+    <a href="#">Healthcare</a>
+    <a href="#">Media</a>
+    <a href="#">Retail</a>
+  </div>
+  <div class="news-grid">
+            <a href="https://fortune.com/2026/04/26/why-did-microsoft-do-buyouts-layoffs-tech-workers/" target="_blank" rel="noopener" class="news-item">
+              <div class="ni-source">Fortune</div>
+              <div class="ni-title">More than 90,000 tech workers have been laid off this year. But here’s why companies like Microsoft are offering volunta</div>
+              <div class="ni-excerpt">Buyouts target specific kinds of employees, says employment lawyer Domenique Camacho Moran.</div>
+              <div class="ni-date">2026-04-26</div>
+            </a>
+            <a href="https://economictimes.indiatimes.com/tech/technology/ai-will-kill-design-jobs-says-figma-investor-gokul-rajaram-industry-vigorously-disagrees/articleshow/130531702.cms" target="_blank" rel="noopener" class="news-item">
+              <div class="ni-source">The Times of India</div>
+              <div class="ni-title">AI will kill design jobs, says Figma investor Gokul Rajaram; industry vigorously disagrees</div>
+              <div class="ni-excerpt">Rajaram, who has invested in various tech companies, is best known for building Google’s advertising network AdSense and scaling it to over $1 billion in revenues. He currently serves as a board membe</div>
+              <div class="ni-date">2026-04-26</div>
+            </a>
+            <a href="http://futurism.com/artificial-intelligence/malus-clones-software-copyright" target="_blank" rel="noopener" class="news-item">
+              <div class="ni-source">Futurism</div>
+              <div class="ni-title">Devious New AI Tool “Clones” Software So That the Original Creator Doesn’t Hold a Copyright Over the New Version</div>
+              <div class="ni-excerpt">&quot;I don’t think there’s any putting the genie back in the bottle at this point.&quot;
+The post Devious New AI Tool “Clones” Software So That the Original Creator Doesn’t Hold a Copyright Over the New Versio</div>
+              <div class="ni-date">2026-04-26</div>
+            </a>
+            <a href="https://alltoc.com/tech/why-did-meta-cut-10-of-jobs" target="_blank" rel="noopener" class="news-item">
+              <div class="ni-source">Alltoc.com</div>
+              <div class="ni-title">Why did Meta cut 10% of jobs? #tech</div>
+              <div class="ni-excerpt">What happened and why it matters Meta announced it will cut about 10% of its workforce—roughly 8,000 jobs—and also said it would not fill thousands of open roles as it shifts spending priorities towar</div>
+              <div class="ni-date">2026-04-26</div>
+            </a>
+            <a href="https://www.businessinsider.com/bi-today-sunday-newsletter-cutting-employee-benefits-2026-4" target="_blank" rel="noopener" class="news-item">
+              <div class="ni-source">Business Insider</div>
+              <div class="ni-title">Cutting employee benefits is no longer off the table</div>
+              <div class="ni-excerpt">In this Sunday edition of Business Insider Today, we're talking about major changes happening to workplace perks.</div>
+              <div class="ni-date">2026-04-26</div>
+            </a>
+            <a href="https://economictimes.indiatimes.com/news/international/us/what-actually-changes-inside-a-company-before-layoffs-happen/articleshow/130529797.cms" target="_blank" rel="noopener" class="news-item">
+              <div class="ni-source">The Times of India</div>
+              <div class="ni-title">What Actually Changes Inside a Company Before Layoffs Happen</div>
+              <div class="ni-excerpt">Companies are making internal changes before layoffs. These include cost cuts and stricter performance reviews. Decision-making becomes centralized, and job duties may change. Communication methods al</div>
+              <div class="ni-date">2026-04-26</div>
+            </a>
+            <a href="https://economictimes.indiatimes.com/news/international/us/why-employers-freeze-hiring-before-major-workplace-changes/articleshow/130529794.cms" target="_blank" rel="noopener" class="news-item">
+              <div class="ni-source">The Times of India</div>
+              <div class="ni-title">Why Employers Freeze Hiring Before Major Workplace Changes</div>
+              <div class="ni-excerpt">Hiring freezes, often seen as cost-saving, can signal deeper organizational shifts like restructuring, budget cuts, or a change in business direction. While not always leading to layoffs, these pauses</div>
+              <div class="ni-date">2026-04-26</div>
+            </a>
+            <a href="https://www.thehindubusinessline.com/info-tech/ai-adoption-to-influence-salary-growth-within-2-3-yrs-teamlease-edtech/article70908270.ece" target="_blank" rel="noopener" class="news-item">
+              <div class="ni-source">BusinessLine</div>
+              <div class="ni-title">AI adoption to influence salary growth within 2-3 yrs: TeamLease Edtech</div>
+              <div class="ni-excerpt">Employees using AI are likely to gain an edge in increments over the next 2-3 years, particularly in sectors such as technology, GCCs and BFSI, TeamLease Edtech founder and CEO Shantanu Rooj said</div>
+              <div class="ni-date">2026-04-26</div>
+            </a>
+            <a href="https://www.forbes.com/sites/frankracioppi/2026/04/26/sirius-xm-and-iheart-media-in-talks-to-merge/" target="_blank" rel="noopener" class="news-item">
+              <div class="ni-source">Forbes</div>
+              <div class="ni-title">Sirius XM And iHeart Media In Talks To Merge</div>
+              <div class="ni-excerpt">SiriusXM and iHeart Media are in preliminary talks to merge. A consolidation of the two giants would bring further dominance in radio, and a greater share of the fast-growing podcast market.</div>
+              <div class="ni-date">2026-04-26</div>
+            </a>
+            <a href="https://www.businessinsider.com/intel-employee-laid-off-job-in-sixties-unemployment-semiconductor-oregon-2026-4" target="_blank" rel="noopener" class="news-item">
+              <div class="ni-source">Business Insider</div>
+              <div class="ni-title">I thought I'd retire from Intel. Then I got laid off in my 60s — and I'm still struggling to find a job.</div>
+              <div class="ni-excerpt">A former Intel technician in his 60s shares how a layoff upended his retirement plans and left him job hunting for healthcare and stability.</div>
+              <div class="ni-date">2026-04-26</div>
+            </a>
+            <a href="https://economictimes.indiatimes.com/tech/information-tech/upskilling-critical-as-ai-disrupts-indias-it-sector-arundhati-bhattacharya-salesforce/articleshow/130529055.cms" target="_blank" rel="noopener" class="news-item">
+              <div class="ni-source">The Times of India</div>
+              <div class="ni-title">Upskilling critical as AI disrupts India’s IT sector: Arundhati Bhattacharya, Salesforce</div>
+              <div class="ni-excerpt">India's IT sector faces a critical juncture as AI reshapes the industry, necessitating rapid workforce upskilling. Salesforce India CEO Arundhati Bhattacharya highlighted that while job disruption is </div>
+              <div class="ni-date">2026-04-26</div>
+            </a>
+            <a href="https://www.artsjournal.com/diacritical/2026/04/aj-chronicles-perils-of-philanthropy-the-metropolitan-opera.html" target="_blank" rel="noopener" class="news-item">
+              <div class="ni-source">Artsjournal.com</div>
+              <div class="ni-title">AJ Chronicles: Perils of Philanthropy — The Metropolitan Opera</div>
+              <div class="ni-excerpt">We collected 118 stories on ArtsJournal this week. Here’s what I learned. The detail that stuck out in the Metropolitan Opera’s announcement last fall that it had made a $200 million deal with the Sau</div>
+              <div class="ni-date">2026-04-26</div>
+            </a>
+            <a href="https://www.businessinsider.com/brene-brown-interview-silicon-valley-bad-bosses-2026-4" target="_blank" rel="noopener" class="news-item">
+              <div class="ni-source">Business Insider</div>
+              <div class="ni-title">Brené Brown would like a word with Silicon Valley</div>
+              <div class="ni-excerpt">The author and researcher has no patience for tech's bad-boss era.</div>
+              <div class="ni-date">2026-04-26</div>
+            </a>
+            <a href="https://fortune.com/2026/04/26/meta-salesforce-exec-ai-agents-gen-z-jobs-nonprofit/" target="_blank" rel="noopener" class="news-item">
+              <div class="ni-source">Fortune</div>
+              <div class="ni-title">‘You feel radicalized’: A Meta AI exec watched agents beat her top workers. Now she’s built a nonprofit to help Gen Z fi</div>
+              <div class="ni-excerpt">Gen Z is facing AI-driven layoffs and fewer entry-level jobs. Former Meta and Salesforce AI head Clara Shih says young workers can future-proof their careers by learning how to use AI agents.</div>
+              <div class="ni-date">2026-04-26</div>
+            </a>
+            <a href="https://www.thehindubusinessline.com/info-tech/meta-microsoft-have-joined-tech-layoff-tsunami-but-is-ai-really-to-blame/article70907843.ece" target="_blank" rel="noopener" class="news-item">
+              <div class="ni-source">BusinessLine</div>
+              <div class="ni-title">Meta, Microsoft have joined tech layoff tsunami – but is AI really to blame?</div>
+              <div class="ni-excerpt">Meta and Microsoft announce significant layoffs, raising questions about AI's role in workforce changes and corporate strategy.</div>
+              <div class="ni-date">2026-04-26</div>
+            </a>
+            <a href="https://www.irishtimes.com/opinion/2026/04/26/how-can-we-square-500-ryder-cup-tickets-and-a-9bn-surplus-with-talk-of-a-world-recession/" target="_blank" rel="noopener" class="news-item">
+              <div class="ni-source">The Irish Times</div>
+              <div class="ni-title">How can we square €500 Ryder Cup tickets and a €9bn surplus with talk of a world recession?</div>
+              <div class="ni-excerpt">The Government needs to act with an urgency born of the risk that ongoing corporate tax growth is far from guaranteed</div>
+              <div class="ni-date">2026-04-26</div>
+            </a>
+            <a href="https://www.independent.ie/sport/rugby/tommy-conlon-munster-in-their-own-doom-loop-of-stagnating-revenues-low-budget-signings-and-redundancies/a599322431.html" target="_blank" rel="noopener" class="news-item">
+              <div class="ni-source">Independent.ie</div>
+              <div class="ni-title">Tommy Conlon: Munster in their own doom loop of stagnating revenues, low-budget signings and redundancies</div>
+              <div class="ni-excerpt">Munster Rugby announced last month that it was looking for voluntary redundancies. The way it has shed people since is not what management presumably had in mind.</div>
+              <div class="ni-date">2026-04-26</div>
+            </a>
+            <a href="https://techcrunch.com/2026/04/23/redwood-materials-loses-coo-amid-layoffs-restructuring/" target="_blank" rel="noopener" class="news-item">
+              <div class="ni-source">TechCrunch</div>
+              <div class="ni-title">Redwood Materials loses COO amid layoffs, restructuring</div>
+              <div class="ni-excerpt">Former Tesla executive Chris Lister is retiring, and at least three other VPs have left Redwood around the recent restructuring, TechCrunch has learned.</div>
+              <div class="ni-date">Thu, 23 Ap</div>
+            </a>
+            <a href="https://techcrunch.com/2026/04/23/meta-job-cuts-10-percent-8000-employees/" target="_blank" rel="noopener" class="news-item">
+              <div class="ni-source">TechCrunch</div>
+              <div class="ni-title">Meta to cut 10% of jobs, or 8,000 employees, report says</div>
+              <div class="ni-excerpt">According to an internal memo, Meta plans to begin its sweeping layoffs on May 20.</div>
+              <div class="ni-date">Thu, 23 Ap</div>
+            </a>
+            <a href="https://techcrunch.com/2026/04/21/redwood-materials-lays-off-10-in-restructuring-to-chase-energy-storage-business/" target="_blank" rel="noopener" class="news-item">
+              <div class="ni-source">TechCrunch</div>
+              <div class="ni-title">Redwood Materials lays off 10% in restructuring to chase energy storage business</div>
+              <div class="ni-excerpt">The company is restructuring some teams to accommodate a booming energy storage business, according to emails viewed by TechCrunch.</div>
+              <div class="ni-date">Wed, 22 Ap</div>
+            </a>
+            <a href="https://techcrunch.com/2026/04/15/snap-is-cutting-1000-jobs-16-of-its-workforce/" target="_blank" rel="noopener" class="news-item">
+              <div class="ni-source">TechCrunch</div>
+              <div class="ni-title">Snap is cutting 1,000 jobs, 16% of its workforce</div>
+              <div class="ni-excerpt">The company cites advancements in AI for the cuts. CEO Evan Spiegel also wrote that the company is closing more than 300 open roles. Snap had about 5,261 full-time employees as of December 2025.</div>
+              <div class="ni-date">Wed, 15 Ap</div>
+            </a>
+            <a href="https://techcrunch.com/2026/04/09/what-founders-can-learn-from-anjunas-layoffs-and-recovery/" target="_blank" rel="noopener" class="news-item">
+              <div class="ni-source">TechCrunch</div>
+              <div class="ni-title">What founders can learn from Anjuna’s layoffs and recovery</div>
+              <div class="ni-excerpt">In 2021, Anjuna Security was growing fast, hiring aggressively, and chasing a market that seemed limitless. By the end of that year, the venture-backed cybersecurity company had scaled to around 75 em</div>
+              <div class="ni-date">Thu, 09 Ap</div>
+            </a>
+            <a href="https://techcrunch.com/2026/03/14/meta-reportedly-considering-layoffs-that-could-affect-20-of-the-company/" target="_blank" rel="noopener" class="news-item">
+              <div class="ni-source">TechCrunch</div>
+              <div class="ni-title">Meta reportedly considering layoffs that could affect 20% of the company</div>
+              <div class="ni-excerpt">These layoffs could help Facebook's parent company offset its aggressive spending on AI infrastructure, as well as AI-related acquisitions and hiring.</div>
+              <div class="ni-date">Sat, 14 Ma</div>
+            </a>
+            <a href="https://techcrunch.com/2026/03/12/atlassian-follows-blocks-footsteps-and-cuts-staff-in-the-name-of-ai/" target="_blank" rel="noopener" class="news-item">
+              <div class="ni-source">TechCrunch</div>
+              <div class="ni-title">Atlassian follows Block’s footsteps and cuts staff in the name of AI</div>
+              <div class="ni-excerpt">Atlassian laid off 10% of its workforce, around 1,600 people, as the company looks to funnel more funds to AI.</div>
+              <div class="ni-date">Thu, 12 Ma</div>
+            </a></div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">Layoff<span>Trends</span></div>
+    <ul class="footer-links">
+      <li><a href="/">Dashboard</a></li>
+      <li><a href="/about.html">About</a></li>
+      <li><a href="/whisper.html">Submit a Tip</a></li>
+    </ul>
+    <div style="color:#555;font-size:10px;">© 2026 LayoffTrends · Updated every 2 hours</div>
+  </div>
+</footer>
+</body></html>
