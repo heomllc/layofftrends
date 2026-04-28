@@ -7,4 +7,5 @@
   <url><loc>https://layofftrends.com/news.html</loc><changefreq>hourly</changefreq><priority>0.8</priority></url>
   <url><loc>https://layofftrends.com/jobs.html</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
   <url><loc>https://layofftrends.com/about.html</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://layofftrends.com/privacy.html</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>
 </urlset>
