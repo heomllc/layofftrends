@@ -67,6 +67,7 @@ def nav(active=""):
         ("/news.html", "Latest News"),
         ("/whisper.html", "Whisper Network"),
         ("/jobs.html", "Jobs & Learning"),
+        ("/insights.html", "Insights"),
         ("/about.html", "About"),
     ]
     links = ""
