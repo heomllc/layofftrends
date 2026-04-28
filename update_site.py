@@ -40,7 +40,7 @@ def fetch_news():
     articles = []
     url = (
         "https://newsapi.org/v2/everything"
-        "?q=layoffs+OR+%22job+cuts%22+OR+%22workforce+reduction%22"
+        "?q=layoffs+%22job+cuts%22+OR+%22workforce+reduction%22+OR+%22laid+off%22+OR+%22redundancies%22&domains=techcrunch.com,reuters.com,bloomberg.com,cnbc.com,theverge.com,businessinsider.com"
         "&language=en&sortBy=publishedAt&pageSize=8"
         f"&apiKey={NEWS_API_KEY}"
     )
@@ -150,6 +150,14 @@ def ensure_template():
 
 def main():
     updated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M")
+
+    # Load live stats from scraper
+    stats = {}
+    try:
+        import json as _json
+        stats = _json.loads(Path('/var/www/layofftrends.com/data/live_stats.json').read_text())
+    except Exception as e:
+        print(f"  [warn] Could not load live stats: {e}")
     print(f"\n{'='*52}")
     print(f"LayoffTrends updater v2 — {updated} UTC")
     print('='*52)
@@ -164,6 +172,36 @@ def main():
 
     # Read template (design source of truth)
     html = Path(TEMPLATE_PATH).read_text(encoding="utf-8")
+
+    # Inject live stats if available
+    if stats:
+        total     = stats.get('total', 218400)
+        companies = stats.get('companies', 831)
+        warn      = stats.get('warn_notices', 1247)
+        daily     = stats.get('daily_rate', 858)
+        total_k   = f"{total/1000:.1f}K"
+
+        # Replace KPI values
+        import re as _re
+        html = _re.sub(r'(class="kpi-value"[^>]*>)[\d,\.]+K?(<)', lambda m: m.group(1) + (total_k if 'TOTAL' in html[max(0,html.index(m.group(0))-200):html.index(m.group(0))] else m.group(2).split('<')[0]) + m.group(2), html)
+
+        # Replace headline number
+        html = _re.sub(r'<h1 class="hero-headline[^"]*">[\d,]+<br>', f'<h1 class="hero-headline fade-in">{total:,}<br>', html)
+
+        # Replace KPI strip values precisely
+        html = html.replace(
+            '<div class="kpi-value">218.4K</div>',
+            f'<div class="kpi-value">{total_k}</div>'
+        )
+        html = html.replace(
+            '<div class="kpi-value">1,247</div>',
+            f'<div class="kpi-value">{warn:,}</div>'
+        )
+        html = html.replace(
+            '<div class="kpi-value">831</div>',
+            f'<div class="kpi-value">{companies:,}</div>'
+        )
+        print(f"  ✅ Live stats injected: {total:,} jobs, {companies} companies")
 
     # Inject news between placeholders
     if "<!-- LIVE_NEWS_START -->" in html and "<!-- LIVE_NEWS_END -->" in html:
