@@ -64,7 +64,7 @@ body{background:var(--paper);color:var(--ink);font-family:'DM Sans',sans-serif;f
 .section-head{display:flex;align-items:baseline;justify-content:space-between;padding:20px 32px 12px;border-bottom:2px solid var(--ink);}
 .section-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;}
 .section-sub{font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-faint);letter-spacing:.08em;text-transform:uppercase;}
-.boards-grid{display:grid;grid-template-columns:1fr 1fr;border-bottom:2px solid var(--ink);}
+.boards-grid{display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:2px solid var(--ink);}
 .board{padding:24px 32px;}.board-left{border-right:1px solid var(--rule);}
 .board-badge{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;padding:3px 9px;border-radius:2px;font-weight:500;}
 .badge-shame{background:#fde8e8;color:var(--red);border:1px solid #f5c6c4;}
@@ -167,7 +167,7 @@ footer{background:var(--ink);color:#aaa;padding:24px 32px;font-family:'DM Mono',
 .footer-links a{color:#666;text-decoration:none;}
 .footer-links a:hover{color:#f0ece4;}
 @media(max-width:900px){
-  .page-hero,.boards-grid{grid-template-columns:1fr;}
+  .page-hero{grid-template-columns:1fr;}
   .board-left{border-right:none;border-bottom:1px solid var(--rule);}
   .intro-inner{grid-template-columns:1fr;}
   .brand-pillars{display:none;}
@@ -212,10 +212,7 @@ footer{background:var(--ink);color:#aaa;padding:24px 32px;font-family:'DM Mono',
       <div class="modal-title" id="authTitle">Sign In to Submit</div>
       <div class="modal-sub" id="authSub">Your identity is never shown publicly — only your role and company if you choose.</div>
       <div id="googleBtn" style="margin-bottom:10px;"></div>
-      <button class="auth-btn" onclick="twitterLogin()">
-        <svg class="auth-icon" viewBox="0 0 24 24" fill="#000"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-        Continue with X / Twitter
-      </button>
+      
       <div class="divider"><span>or use email</span></div>
       <label class="form-lbl">Email</label>
       <input class="form-inp" id="authEmail" type="email" placeholder="you@email.com" />
@@ -315,12 +312,17 @@ footer{background:var(--ink);color:#aaa;padding:24px 32px;font-family:'DM Mono',
         <button class="pct-btn" onclick="filterFeed('bad')">
           <div class="pct-num" id="pctBad">—</div>
           <div class="pct-lbl">😤 Badly Handled</div>
-          <div class="pct-hint">Click to see companies →</div>
+          <div class="pct-hint">Click to filter →</div>
+        </button>
+        <button class="pct-btn" style="border-color:#d4820a;background:#1a1000;" onclick="filterFeed('ok')">
+          <div class="pct-num" id="pctOk" style="color:#d4820a;">—</div>
+          <div class="pct-lbl" style="color:#d4820a;">😐 Mixed Experience</div>
+          <div class="pct-hint">Click to filter →</div>
         </button>
         <button class="pct-btn good" onclick="filterFeed('good')">
           <div class="pct-num" id="pctGood">—</div>
           <div class="pct-lbl">😊 Well Handled</div>
-          <div class="pct-hint">Click to see companies →</div>
+          <div class="pct-hint">Click to filter →</div>
         </button>
       </div>
     </div>
@@ -333,8 +335,8 @@ footer{background:var(--ink);color:#aaa;padding:24px 32px;font-family:'DM Mono',
       <span style="font-size:9px;color:var(--ink-faint);">OVERALL MARKET SENTIMENT — LIVE</span>
       <span style="color:var(--green);">Handled Well 😊</span>
     </div>
-    <div class="sb-track"><div class="sb-bad" id="sentBad" style="width:50%"></div><div class="sb-good" id="sentGood" style="width:50%"></div></div>
-    <div class="sb-counts"><span class="bad" id="cntBad">— bad</span><span class="good" id="cntGood">— good</span></div>
+    <div class="sb-track"><div class="sb-bad" id="sentBad" style="width:50%"></div><div id="sentOk" style="position:absolute;top:0;height:100%;background:#d4820a;transition:width .8s ease;"></div><div class="sb-good" id="sentGood" style="width:25%"></div></div>
+    <div class="sb-counts"><span class="bad" id="cntBad">— bad</span><span style="color:#d4820a;font-family:DM Mono,monospace;font-size:10px;" id="cntOk">— mixed</span><span class="good" id="cntGood">— good</span></div>
   </div>
 
   <!-- LEADERBOARDS -->
@@ -342,12 +344,17 @@ footer{background:var(--ink);color:#aaa;padding:24px 32px;font-family:'DM Mono',
   <div class="boards-grid">
     <div class="board board-left">
       <span class="board-badge badge-shame">Wall of Shame</span>
-      <div class="board-title">Worst Handled Layoffs</div>
+      <div class="board-title">Worst Handled</div>
       <div id="shameList"><div class="spinner"></div></div>
+    </div>
+    <div class="board board-left">
+      <span class="board-badge" style="background:#fef3dc;color:#d4820a;border:1px solid #f5d78a;">Mixed Reviews</span>
+      <div class="board-title">Most Divided</div>
+      <div id="mixedList"><div class="spinner"></div></div>
     </div>
     <div class="board">
       <span class="board-badge badge-fame">Hall of Fame</span>
-      <div class="board-title">Best Handled Layoffs</div>
+      <div class="board-title">Best Handled</div>
       <div id="fameList"><div class="spinner"></div></div>
     </div>
   </div>
@@ -385,7 +392,7 @@ footer{background:var(--ink);color:#aaa;padding:24px 32px;font-family:'DM Mono',
 
 <script>
 const API='/api';
-const GOOGLE_CLIENT_ID='YOUR_GOOGLE_CLIENT_ID';
+const GOOGLE_CLIENT_ID='954030112858-c31bm3sr7ieg3djn5kk7qn629c1h3md8.apps.googleusercontent.com';
 let currentUser=null,currentToken=null,currentFilter='all',offset=0,authMode='login';
 let mVerdict='',mStars={notice:3,severance:3,comms:3,outplacement:3,humanity:3};
 
@@ -407,7 +414,7 @@ function renderChip(){
   }
 }
 function initGoogle(){
-  if(!window.google||GOOGLE_CLIENT_ID==='YOUR_GOOGLE_CLIENT_ID')return;
+  if(!window.google||GOOGLE_CLIENT_ID==='')return;
   google.accounts.id.initialize({client_id:GOOGLE_CLIENT_ID,callback:async r=>{
     try{const res=await fetch(`${API}/auth/google`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id_token:r.credential})});
     const d=await res.json();
@@ -504,23 +511,28 @@ async function loadStats(){
   document.getElementById('statGood').textContent=d.pct_good+'%';
   document.getElementById('statCos').textContent=d.companies.toLocaleString();
   document.getElementById('pctBad').textContent=d.pct_bad+'%';
-  document.getElementById('pctGood').textContent=d.pct_good+'%';
+  document.getElementById('pctGood').textContent=d.pct_good+'%';const pctOk=100-d.pct_bad-d.pct_good;if(document.getElementById('pctOk'))document.getElementById('pctOk').textContent=pctOk+'%';
   document.getElementById('sentBad').style.width=d.pct_bad+'%';
   document.getElementById('sentGood').style.width=d.pct_good+'%';
+  const pctMix=100-d.pct_bad-d.pct_good;
+  const okEl=document.getElementById('sentOk');
+  if(okEl){okEl.style.width=pctMix+'%';okEl.style.left=d.pct_bad+'%';}
+  if(document.getElementById('cntOk'))document.getElementById('cntOk').textContent=d.ok+' mixed';
   document.getElementById('cntBad').textContent=d.bad+' bad experiences';
   document.getElementById('cntGood').textContent=d.good+' good experiences';
-  renderBoards(d.shame,d.fame);}catch(e){console.error(e);}
-}
-function renderBoards(shame,fame){
+  renderBoards(d.shame,d.fame,d.mixed||[]);}catch(e){console.error(e);}}
+function renderBoards(shame,fame,mixed=[]){
   const row=(c,i,col)=>`<div class="co-row" onclick="filterFeed('all')">
     <div class="co-rank">${i+1}</div>
     <div class="co-info"><div class="co-name">${c.company}</div>
     <div class="co-count">${c.count} review${c.count>1?'s':''}</div></div>
     <div class="co-score-wrap"><div class="co-score ${col}">${Number(c.avg).toFixed(1)}</div>
     <div class="co-score-lbl">/ 5.0</div>
-    <div class="co-meter"><div class="co-meter-fill" style="width:${c.avg/5*100}%;background:var(--${col==='red'?'red':'green'})"></div></div></div></div>`;
+    <div class="co-meter"><div class="co-meter-fill" style="width:${c.avg/5*100}%;background:${col==='red'?'var(--red)':col==='amber'?'#d4820a':'var(--green)'}"></div></div></div></div>`;
   document.getElementById('shameList').innerHTML=shame.map((c,i)=>row(c,i,'red')).join('')||'<p style="color:var(--ink-faint);font-size:13px;padding:8px 0;">No data yet</p>';
   document.getElementById('fameList').innerHTML=fame.map((c,i)=>row(c,i,'green')).join('')||'<p style="color:var(--ink-faint);font-size:13px;padding:8px 0;">No data yet</p>';
+  const mixEl=document.getElementById('mixedList');if(mixEl)mixEl.innerHTML=(mixed||[]).map((c,i)=>row(c,i,'amber')).join('')||'<p style="color:var(--ink-faint);font-size:13px;padding:8px 0;">No data yet</p>';
+
 }
 function renderCard(e){
   const vc=e.verdict==='bad'?'verdict-bad':e.verdict==='good'?'verdict-good':'verdict-ok';
