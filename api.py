@@ -312,6 +312,7 @@ def get_stats():
     company_scores = [dict(r) for r in rows]
     shame = sorted(company_scores, key=lambda x: x["avg"])[:6]
     fame  = sorted(company_scores, key=lambda x: x["avg"], reverse=True)[:6]
+    mixed = sorted([c for c in company_scores if c.get("ok_count",0)>0], key=lambda x: x.get("ok_count",0), reverse=True)[:6]
 
     return jsonify({
         "total":     total,
@@ -323,6 +324,7 @@ def get_stats():
         "companies": companies,
         "users":     users,
         "shame":     shame,
+        "mixed":     mixed,
         "fame":      fame,
     })
 
