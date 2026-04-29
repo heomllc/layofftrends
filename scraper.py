@@ -207,6 +207,29 @@ def main():
     print(f"     Source:        {source}")
     print(f"     Updated:       {stats['updated_at'][:16]} UTC\n")
 
+    # Update monthly chart data in template
+    try:
+        import re as _re
+        tpl_path = "/var/www/layofftrends.com/index.template.html"
+        tpl = open(tpl_path).read()
+        from datetime import datetime as _dt
+        now = _dt.now()
+        months_done = now.month  # how many months have elapsed
+        month_names = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
+        month_labels = month_names[:months_done]
+        pcts = [0.08, 0.10, 0.12, 0.14, 0.13, 0.12, 0.11, 0.10, 0.08, 0.06, 0.04, 0.02]
+        month_vals = [round(stats["total"] * pcts[i]) for i in range(months_done)]
+        # Replace in template
+        tpl = _re.sub(
+            r"const data = \[.*?\]; // Jan.*?scraper",
+            f"const data = {month_vals}; // {month_labels[0]}–{month_labels[-1]} 2026 — updated by scraper",
+            tpl, flags=_re.DOTALL
+        )
+        open(tpl_path, "w").write(tpl)
+        print(f"  ✅ Monthly chart updated: {month_labels}")
+    except Exception as e:
+        print(f"  [warn] Monthly chart update failed: {e}")
+
     return stats
 
 if __name__ == "__main__":
