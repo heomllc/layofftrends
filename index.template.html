@@ -996,24 +996,24 @@
 <section class="hero">
   <div class="hero-main">
     <div class="hero-eyebrow fade-in">2026 Annual Report · Updated Hourly</div>
-    <h1 class="hero-headline fade-in">218,400<br>Jobs Eliminated<br>This Year</h1>
+    <h1 class="hero-headline fade-in"><span id="liveTotal">218,400</span><br>Jobs Eliminated<br>This Year</h1>
     <p class="hero-subline fade-in">Aggregated from verified WARN Act filings, authenticated corporate disclosures, and authenticated peer submissions across 47 industries. Data current as of 14:42 EST.</p>
 
     <!-- KPI Strip -->
     <div class="kpi-strip fade-in">
       <div class="kpi">
         <div class="kpi-label">Total Affected (2026)</div>
-        <div class="kpi-value">218.4K</div>
+        <div class="kpi-value" id="liveTotalK">218.4K</div>
         <div class="kpi-delta neg">↑ vs 2025 YTD</div>
       </div>
       <div class="kpi">
         <div class="kpi-label">Active WARN Notices</div>
-        <div class="kpi-value">1,247</div>
+        <div class="kpi-value" id="liveWarn">1,247</div>
         <div class="kpi-delta neg">updating...</div>
       </div>
       <div class="kpi">
         <div class="kpi-label">Companies Affected</div>
-        <div class="kpi-value">831</div>
+        <div class="kpi-value" id="liveCos">831</div>
         <div class="kpi-delta neg">updating...</div>
       </div>
     </div>
@@ -1080,12 +1080,12 @@
       <!-- Clickable stat tiles -->
       <div style="display:flex;gap:8px;margin-bottom:14px;">
         <a href="/whisper.html#badly-handled" style="flex:1;background:#fde8e8;border:2px solid #f5c6c4;padding:12px 10px;border-radius:2px;text-align:center;text-decoration:none;cursor:pointer;transition:all 0.15s;" onmouseover="this.style.borderColor='var(--accent-red)';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#f5c6c4';this.style.transform='translateY(0)'">
-          <div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--accent-red);line-height:1;">63%</div>
+          <div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--accent-red);line-height:1;" id="sidebarBad">63%</div>
           <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent-red);margin-top:3px;">😤 Badly Handled</div>
           <div style="font-family:'DM Mono',monospace;font-size:8px;color:#aaa;margin-top:4px;">tap to see →</div>
         </a>
         <a href="/whisper.html#well-handled" style="flex:1;background:#e2f5ec;border:2px solid #b8dfc9;padding:12px 10px;border-radius:2px;text-align:center;text-decoration:none;cursor:pointer;transition:all 0.15s;" onmouseover="this.style.borderColor='var(--accent-green)';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#b8dfc9';this.style.transform='translateY(0)'">
-          <div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--accent-green);line-height:1;">37%</div>
+          <div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--accent-green);line-height:1;" id="sidebarGood">37%</div>
           <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent-green);margin-top:3px;">😊 Well Handled</div>
           <div style="font-family:'DM Mono',monospace;font-size:8px;color:#aaa;margin-top:4px;">tap to see →</div>
         </a>
@@ -1155,13 +1155,13 @@
     <div class="wc-headline">Did Your Company Handle<br>the Layoff Well or Badly?</div>
     <div class="wc-sub">The Whisper Network is where people who were laid off rate their company across 5 dimensions — severance, notice, leadership communication, outplacement support, and basic human treatment. Companies get a live public score. No spin. No PR. Just real people telling the truth.</div>
     <div class="wc-stats">
-      <div class="wc-stat"><span class="wc-num red">63%</span><span class="wc-lbl">Badly Handled</span></div>
+      <div class="wc-stat"><span class="wc-num red" id="liveBadPct">63%</span><span class="wc-lbl">Badly Handled</span></div>
       <div class="wc-divider"></div>
-      <div class="wc-stat"><span class="wc-num green">37%</span><span class="wc-lbl">Well Handled</span></div>
+      <div class="wc-stat"><span class="wc-num green" id="liveGoodPct">37%</span><span class="wc-lbl">Well Handled</span></div>
       <div class="wc-divider"></div>
-      <div class="wc-stat"><span class="wc-num">847</span><span class="wc-lbl">Experiences Shared</span></div>
+      <div class="wc-stat"><span class="wc-num" id="liveExperiences">847</span><span class="wc-lbl">Experiences Shared</span></div>
       <div class="wc-divider"></div>
-      <div class="wc-stat"><span class="wc-num">94</span><span class="wc-lbl">Companies Rated</span></div>
+      <div class="wc-stat"><span class="wc-num" id="liveCompaniesRated">94</span><span class="wc-lbl">Companies Rated</span></div>
     </div>
   </div>
   <div class="wc-right">
@@ -1528,6 +1528,42 @@ window.addEventListener('resize', () => {
   drawSparkChart();
   drawTrendChart();
 });
+</script>
+
+<script>
+// ── LIVE DATA — fetches real numbers on every page load ──────────────────
+async function loadLiveData() {
+  try {
+    // 1. Whisper Network stats from API
+    const wr = await fetch('/api/experiences/stats');
+    const ws = await wr.json();
+    const set = (id, val) => { const el=document.getElementById(id); if(el) el.textContent=val; };
+    set('liveBadPct',         ws.pct_bad + '%');
+    set('liveGoodPct',        ws.pct_good + '%');
+    set('liveExperiences',    ws.total.toLocaleString());
+    set('liveCompaniesRated', ws.companies.toLocaleString());
+    set('sidebarBad',         ws.pct_bad + '%');
+    set('sidebarGood',        ws.pct_good + '%');
+  } catch(e) { console.warn('Whisper stats unavailable', e); }
+
+  try {
+    // 2. Scraper stats from JSON file
+    const sr = await fetch('/data/live_stats.json?v=' + Date.now());
+    const ss = await sr.json();
+    const total     = ss.total;
+    const totalK    = (total/1000).toFixed(1) + 'K';
+    const warn      = ss.warn_notices || 1247;
+    const companies = ss.companies || 831;
+
+    const set = (id, val) => { const el=document.getElementById(id); if(el) el.textContent=val; };
+    set('liveTotal',   total.toLocaleString());
+    set('liveTotalK',  totalK);
+    set('liveWarn',    warn.toLocaleString());
+    set('liveCos',     companies.toLocaleString());
+  } catch(e) { console.warn('Scraper stats unavailable', e); }
+}
+
+loadLiveData();
 </script>
 </body>
 </html>
