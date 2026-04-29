@@ -1004,17 +1004,17 @@
       <div class="kpi">
         <div class="kpi-label">Total Affected (2026)</div>
         <div class="kpi-value">218.4K</div>
-        <div class="kpi-delta neg">↑ 34% vs 2025 YTD</div>
+        <div class="kpi-delta neg">↑ vs 2025 YTD</div>
       </div>
       <div class="kpi">
         <div class="kpi-label">Active WARN Notices</div>
         <div class="kpi-value">1,247</div>
-        <div class="kpi-delta neg">↑ 89 this week</div>
+        <div class="kpi-delta neg">updating...</div>
       </div>
       <div class="kpi">
         <div class="kpi-label">Companies Affected</div>
         <div class="kpi-value">831</div>
-        <div class="kpi-delta neg">↑ 12 since Monday</div>
+        <div class="kpi-delta neg">updating...</div>
       </div>
     </div>
 
@@ -1381,8 +1381,8 @@ function drawSparkChart() {
   const ctx = canvas.getContext('2d');
   ctx.scale(dpr, dpr);
 
-  const data = [18200, 24100, 21800, 29400, 38100, 42300, 44500]; // Jan–present
-  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul'];
+  const data = [15066, 18080, 22097, 25111]; // Jan–Apr 2026 — updated by scraper
+  const months = ['Jan', 'Feb', 'Mar', 'Apr'];
   const max = Math.max(...data);
   const pad = { t:10, r:8, b:28, l:48 };
   const cw = W - pad.l - pad.r;
@@ -1504,8 +1504,8 @@ function drawTrendChart() {
 function buildMonthlyBars() {
   const container = document.getElementById('monthlyChart');
   if (!container) return;
-  const months = ['Jan','Feb','Mar','Apr','May','Jun'];
-  const vals = [18200, 24100, 21800, 29400, 38100, 42300];
+  const months = ['Jan', 'Feb', 'Mar', 'Apr'];
+  const vals = [15066, 18080, 22097, 25111];
   const max = Math.max(...vals);
   container.innerHTML = months.map((m, i) => {
     const pct = (vals[i] / max) * 100;

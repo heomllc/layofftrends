@@ -1004,17 +1004,17 @@
       <div class="kpi">
         <div class="kpi-label">Total Affected (2026)</div>
         <div class="kpi-value"></div>
-        <div class="kpi-delta neg">↑ 34% vs 2025 YTD</div>
+        <div class="kpi-delta neg">↑ vs 2025 YTD</div>
       </div>
       <div class="kpi">
         <div class="kpi-label">Active WARN Notices</div>
         <div class="kpi-value"></div>
-        <div class="kpi-delta neg">↑ 89 this week</div>
+        <div class="kpi-delta neg">updating...</div>
       </div>
       <div class="kpi">
         <div class="kpi-label">Companies Affected</div>
         <div class="kpi-value"></div>
-        <div class="kpi-delta neg">↑ 12 since Monday</div>
+        <div class="kpi-delta neg">updating...</div>
       </div>
     </div>
 
@@ -1191,8 +1191,16 @@
       <a href="/news.html" class="section-link">All stories →</a>
     </div>
     <div class="news-list"><!-- LIVE_NEWS_START -->
-        <a href="https://techcrunch.com/2026/04/26/techcrunch-mobility-elons-admission/" target="_blank" rel="noopener" class="news-card">
+        <a href="https://www.businessinsider.com/major-retail-bankruptcy-cases-of-2026" target="_blank" rel="noopener" class="news-card">
           <div class="news-num">01</div>
+          <div>
+            <div class="news-title">6 major retail bankruptcy cases of 2026, from Saks to Eddie Bauer</div>
+            <div class="news-meta">BUSINESS INSIDER · 2026-04-27</div>
+            <div class="news-excerpt">Saks Global and Eddie Bauer are among the major retailers to file for bankruptcy in 2026, highlighting industry-wide challenges.</div>
+          </div>
+        </a>
+        <a href="https://techcrunch.com/2026/04/26/techcrunch-mobility-elons-admission/" target="_blank" rel="noopener" class="news-card">
+          <div class="news-num">02</div>
           <div>
             <div class="news-title">TechCrunch Mobility: Elon’s admission | TechCrunch</div>
             <div class="news-meta">TECHCRUNCH · 2026-04-26</div>
@@ -1200,7 +1208,7 @@
           </div>
         </a>
         <a href="https://www.businessinsider.com/intel-employee-laid-off-job-in-sixties-unemployment-semiconductor-oregon-2026-4" target="_blank" rel="noopener" class="news-card">
-          <div class="news-num">02</div>
+          <div class="news-num">03</div>
           <div>
             <div class="news-title">I thought I'd retire from Intel. Then I got laid off in my 60s — and I'm still struggling to find a job.</div>
             <div class="news-meta">BUSINESS INSIDER · 2026-04-26</div>
@@ -1208,7 +1216,7 @@
           </div>
         </a>
         <a href="https://www.businessinsider.com/brene-brown-interview-silicon-valley-bad-bosses-2026-4" target="_blank" rel="noopener" class="news-card">
-          <div class="news-num">03</div>
+          <div class="news-num">04</div>
           <div>
             <div class="news-title">Brené Brown would like a word with Silicon Valley</div>
             <div class="news-meta">BUSINESS INSIDER · 2026-04-26</div>
@@ -1216,7 +1224,7 @@
           </div>
         </a>
         <a href="https://www.cnbc.com/2026/04/25/ai-talent-wars-enterprise-software-executives-openai.html" target="_blank" rel="noopener" class="news-card">
-          <div class="news-num">04</div>
+          <div class="news-num">05</div>
           <div>
             <div class="news-title">AI talent war: Software industry is a new target as top executives jump ship to OpenAI</div>
             <div class="news-meta">CNBC · 2026-04-25</div>
@@ -1224,19 +1232,11 @@
           </div>
         </a>
         <a href="https://www.businessinsider.com/andrew-yang-ai-income-inequality-ubi-universal-basic-income-2026-4" target="_blank" rel="noopener" class="news-card">
-          <div class="news-num">05</div>
+          <div class="news-num">06</div>
           <div>
             <div class="news-title">Andrew Yang says AI could swell economic inequality at an 'epic, unprecedented scale'</div>
             <div class="news-meta">BUSINESS INSIDER · 2026-04-25</div>
             <div class="news-excerpt">Andrew Yang says a basic income policy will be &quot;necessary&quot; to address the impact of AI on the workforce.</div>
-          </div>
-        </a>
-        <a href="https://www.businessinsider.com/microsoft-software-engineer-artificial-intelligence-tools-copilot-big-tech-advice-2026-4" target="_blank" rel="noopener" class="news-card">
-          <div class="news-num">06</div>
-          <div>
-            <div class="news-title">I'm a Gen Z Microsoft engineer. AI doesn't always save me time, but it's still made my job easier.</div>
-            <div class="news-meta">BUSINESS INSIDER · 2026-04-25</div>
-            <div class="news-excerpt">Gen Z Microsoft engineer on why she's not feeling &quot;AI fatigue,&quot; how she uses AI, and her advice for breaking into the industry.</div>
           </div>
         </a><!-- LIVE_NEWS_END -->
 
@@ -1396,8 +1396,8 @@ function drawSparkChart() {
   const ctx = canvas.getContext('2d');
   ctx.scale(dpr, dpr);
 
-  const data = [18200, 24100, 21800, 29400, 38100, 42300, 44500]; // Jan–present
-  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul'];
+  const data = [15066, 18080, 22097, 25111]; // Jan–Apr 2026 — updated by scraper
+  const months = ['Jan', 'Feb', 'Mar', 'Apr'];
   const max = Math.max(...data);
   const pad = { t:10, r:8, b:28, l:48 };
   const cw = W - pad.l - pad.r;
@@ -1519,8 +1519,8 @@ function drawTrendChart() {
 function buildMonthlyBars() {
   const container = document.getElementById('monthlyChart');
   if (!container) return;
-  const months = ['Jan','Feb','Mar','Apr','May','Jun'];
-  const vals = [18200, 24100, 21800, 29400, 38100, 42300];
+  const months = ['Jan', 'Feb', 'Mar', 'Apr'];
+  const vals = [15066, 18080, 22097, 25111];
   const max = Math.max(...vals);
   container.innerHTML = months.map((m, i) => {
     const pct = (vals[i] / max) * 100;
