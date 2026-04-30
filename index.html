@@ -973,16 +973,16 @@
       <a href="/whisper.html" class="brand-pillar">🔊 Share Your Experience</a>
     </div>
   </div>
-  <nav class="masthead-nav">
+    <nav class="masthead-nav">
     <a href="/" class="active">Live Dashboard</a>
-    <a href="/sectors.html">Sector Analysis</a>
-    <a href="/regional.html">Regional Data</a>
-    <a href="/jobs.html">Jobs & Learning</a>
-    <a href="/whisper.html">Whisper Network</a>
-    <a href="/india.html">🇮🇳 India</a>
-    <a href="/news.html">Latest News</a>
-    <a href="/insights.html">Insights</a>
-    <a href="/about.html">About</a>
+    <a href="/india.html" >🇮🇳 India</a>
+    <a href="/whisper.html" >Whisper Network</a>
+    <a href="/jobs.html" >Jobs & Learning</a>
+    <a href="/news.html" >Latest News</a>
+    <a href="/sectors.html" >Sector Analysis</a>
+    <a href="/regional.html" >Regional Data</a>
+    <a href="/insights.html" >Insights</a>
+    <a href="/about.html" >About</a>
   </nav>
 </header>
 
@@ -998,7 +998,7 @@
   <div class="hero-main">
     <div class="hero-eyebrow fade-in">2026 Annual Report · Updated Hourly</div>
     <h1 class="hero-headline fade-in"><span id="liveTotal">218,400</span><br>Jobs Eliminated<br>This Year</h1>
-    <p class="hero-subline fade-in">Aggregated from verified WARN Act filings, authenticated corporate disclosures, and authenticated peer submissions across 47 industries. Data current as of 14:42 EST.</p>
+    <p class="hero-subline fade-in">Aggregated from verified WARN Act filings, authenticated corporate disclosures, and authenticated peer submissions across 47 industries. Data current as of <span id="lastUpdated">--:-- UTC</span>.</p>
 
     <!-- KPI Strip -->
     <div class="kpi-strip fade-in">
@@ -1009,13 +1009,13 @@
       </div>
       <div class="kpi">
         <div class="kpi-label">Active WARN Notices</div>
-        <div class="kpi-value" id="liveWarn">1,200</div>
-        <div class="kpi-delta neg">↑ active notices</div>
+        <div class="kpi-value" id="liveWarn"></div>
+        <div class="kpi-delta neg">updating...</div>
       </div>
       <div class="kpi">
         <div class="kpi-label">Companies Affected</div>
-        <div class="kpi-value" id="liveCos">300</div>
-        <div class="kpi-delta neg">↑ reporting cuts</div>
+        <div class="kpi-value" id="liveCos"></div>
+        <div class="kpi-delta neg">updating...</div>
       </div>
     </div>
 
@@ -1192,8 +1192,16 @@
       <a href="/news.html" class="section-link">All stories →</a>
     </div>
     <div class="news-list"><!-- LIVE_NEWS_START -->
-        <a href="https://www.businessinsider.com/meta-q1-earnings-preview-ai-revenue-growth-capex-wall-street-2026-4" target="_blank" rel="noopener" class="news-card">
+        <a href="https://www.cnbc.com/2026/04/29/meta-q1-earnings-report-2026.html" target="_blank" rel="noopener" class="news-card">
           <div class="news-num">01</div>
+          <div>
+            <div class="news-title">Meta looks to report fastest revenue growth since 2021</div>
+            <div class="news-meta">CNBC · 2026-04-29</div>
+            <div class="news-excerpt">In Meta's earnings report after the bell, investors will be monitoring the company's hefty AI spending and whether the war in Iran is having an impact.</div>
+          </div>
+        </a>
+        <a href="https://www.businessinsider.com/meta-q1-earnings-preview-ai-revenue-growth-capex-wall-street-2026-4" target="_blank" rel="noopener" class="news-card">
+          <div class="news-num">02</div>
           <div>
             <div class="news-title">Wall Street is eyeing a new burst of growth for Meta ahead of its Q1 earnings report</div>
             <div class="news-meta">BUSINESS INSIDER · 2026-04-28</div>
@@ -1201,7 +1209,7 @@
           </div>
         </a>
         <a href="https://www.cnbc.com/2026/04/28/early-retirement.html" target="_blank" rel="noopener" class="news-card">
-          <div class="news-num">02</div>
+          <div class="news-num">03</div>
           <div>
             <div class="news-title">Working longer isn’t a foolproof retirement plan — 46% of 2025 retirees left earlier than planned, survey finds</div>
             <div class="news-meta">CNBC · 2026-04-28</div>
@@ -1209,7 +1217,7 @@
           </div>
         </a>
         <a href="https://www.businessinsider.com/snaps-spiegel-coming-backlash-against-ai-2026-4" target="_blank" rel="noopener" class="news-card">
-          <div class="news-num">03</div>
+          <div class="news-num">04</div>
           <div>
             <div class="news-title">Snap's Evan Spiegel warns tech leaders are underestimating a coming backlash against AI</div>
             <div class="news-meta">BUSINESS INSIDER · 2026-04-28</div>
@@ -1217,7 +1225,7 @@
           </div>
         </a>
         <a href="https://www.businessinsider.com/ai-boom-stanford-students-pause-degrees-for-startups-2026-4" target="_blank" rel="noopener" class="news-card">
-          <div class="news-num">04</div>
+          <div class="news-num">05</div>
           <div>
             <div class="news-title">AI gold rush is driving students to put college on hold for startup bets, Stanford professor says</div>
             <div class="news-meta">BUSINESS INSIDER · 2026-04-28</div>
@@ -1225,19 +1233,11 @@
           </div>
         </a>
         <a href="https://www.cnbc.com/2026/04/28/tech-hyperscalers-q1-earnings-after-iran-war-lifts-energy-ai-prices.html" target="_blank" rel="noopener" class="news-card">
-          <div class="news-num">05</div>
+          <div class="news-num">06</div>
           <div>
             <div class="news-title">Tech's hyperscalers face Wall Street for first time since U.S. Iran war sent oil prices soaring</div>
             <div class="news-meta">CNBC · 2026-04-28</div>
             <div class="news-excerpt">Wall Street is optimistic about big tech companies and their data center construction plans, despite a memory shortage and the Iran war.</div>
-          </div>
-        </a>
-        <a href="https://www.businessinsider.com/charts-fed-chair-jerome-powell-jobs-inflation-interest-rates-2026-4" target="_blank" rel="noopener" class="news-card">
-          <div class="news-num">06</div>
-          <div>
-            <div class="news-title">5 charts show what the economy looked like under Powell's Federal Reserve</div>
-            <div class="news-meta">BUSINESS INSIDER · 2026-04-28</div>
-            <div class="news-excerpt">The April Fed meeting is set to be Jerome Powell's last as chair. Business Insider looked at his record since 2018.</div>
           </div>
         </a><!-- LIVE_NEWS_END -->
 
