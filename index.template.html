@@ -1381,7 +1381,7 @@ function drawSparkChart() {
   const ctx = canvas.getContext('2d');
   ctx.scale(dpr, dpr);
 
-  const data = [15066, 18080, 22097, 25111]; // Jan–Apr 2026 — updated by scraper
+  const data = [8035, 10044, 12053, 14062]; // Jan–Apr 2026 — updated by scraper
   const months = ['Jan', 'Feb', 'Mar', 'Apr'];
   const max = Math.max(...data);
   const pad = { t:10, r:8, b:28, l:48 };
@@ -1532,34 +1532,34 @@ window.addEventListener('resize', () => {
 
 <script>
 // ── LIVE DATA — fetches real numbers on every page load ──────────────────
+function setEl(id, val) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = val;
+}
+
 async function loadLiveData() {
+  // 1. Whisper Network stats from API
   try {
-    // 1. Whisper Network stats from API
-    const wr = await fetch('/api/experiences/stats');
-    const ws = await wr.json();
-    const set = (id, val) => { const el=document.getElementById(id); if(el) el.textContent=val; };
-    set('liveBadPct',         ws.pct_bad + '%');
-    set('liveGoodPct',        ws.pct_good + '%');
-    set('liveExperiences',    ws.total.toLocaleString());
-    set('liveCompaniesRated', ws.companies.toLocaleString());
-    set('sidebarBad',         ws.pct_bad + '%');
-    set('sidebarGood',        ws.pct_good + '%');
+    const ws = await fetch('/api/experiences/stats').then(r => r.json());
+    setEl('liveBadPct',         ws.pct_bad + '%');
+    setEl('liveGoodPct',        ws.pct_good + '%');
+    setEl('liveExperiences',    ws.total.toLocaleString());
+    setEl('liveCompaniesRated', ws.companies.toLocaleString());
+    setEl('sidebarBad',         ws.pct_bad + '%');
+    setEl('sidebarGood',        ws.pct_good + '%');
   } catch(e) { console.warn('Whisper stats unavailable', e); }
 
+  // 2. Scraper stats from JSON file
   try {
-    // 2. Scraper stats from JSON file
-    const sr = await fetch('/data/live_stats.json?v=' + Date.now());
-    const ss = await sr.json();
-    const total     = ss.total;
-    const totalK    = (total/1000).toFixed(1) + 'K';
-    const warn      = ss.warn_notices || 1247;
-    const companies = ss.companies || 831;
-
-    const set = (id, val) => { const el=document.getElementById(id); if(el) el.textContent=val; };
-    set('liveTotal',   total.toLocaleString());
-    set('liveTotalK',  totalK);
-    set('liveWarn',    warn.toLocaleString());
-    set('liveCos',     companies.toLocaleString());
+    const ss = await fetch('/data/live_stats.json?v=' + Date.now()).then(r => r.json());
+    const total = ss.total || 100443;
+    const totalK = (total/1000).toFixed(1) + 'K';
+    const warn = ss.warn_notices || 1200;
+    const cos = ss.companies || 300;
+    setEl('liveTotal',   total.toLocaleString());
+    setEl('liveTotalK',  totalK);
+    setEl('liveWarn',    warn.toLocaleString());
+    setEl('liveCos',     cos.toLocaleString());
   } catch(e) { console.warn('Scraper stats unavailable', e); }
 }
 
