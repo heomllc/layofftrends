@@ -194,12 +194,12 @@ def main():
             f'<div class="kpi-value">{total_k}</div>'
         )
         html = html.replace(
-            '<div class="kpi-value">1,247</div>',
-            f'<div class="kpi-value">{warn:,}</div>'
+            '<div class="kpi-value" id="liveWarn">1,200</div>',
+            f'<div class="kpi-value" id="liveWarn">{warn:,}</div>'
         )
         html = html.replace(
-            '<div class="kpi-value">831</div>',
-            f'<div class="kpi-value">{companies:,}</div>'
+            '<div class="kpi-value" id="liveCos">300</div>',
+            f'<div class="kpi-value" id="liveCos">{companies:,}</div>'
         )
         print(f"  ✅ Live stats injected: {total:,} jobs, {companies} companies")
 
