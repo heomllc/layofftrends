@@ -976,7 +976,6 @@
         <nav class="masthead-nav">
     <a href="/" class="active">Live Dashboard</a>
     <a href="/india.html">🇮🇳 India</a>
-    <a href="/whisper.html">Whisper Network</a>
     <a href="/jobs.html">Jobs & Learning</a>
     <a href="/news.html">Latest News</a>
     <a href="/sectors.html">Sector Analysis</a>
@@ -1146,44 +1145,6 @@
   </aside>
 </section>
 
-<!-- WHISPER NETWORK CALLOUT -->
-<a href="/whisper.html" class="whisper-callout">
-  <div class="wc-left">
-    <div class="wc-eyebrow">
-      <span class="wc-pulse"></span>
-      Community · Anonymous · Live Scoring
-    </div>
-    <div class="wc-headline">Did Your Company Handle<br>the Layoff Well or Badly?</div>
-    <div class="wc-sub">The Whisper Network is where people who were laid off rate their company across 5 dimensions — severance, notice, leadership communication, outplacement support, and basic human treatment. Companies get a live public score. No spin. No PR. Just real people telling the truth.</div>
-    <div class="wc-stats">
-      <div class="wc-stat"><span class="wc-num red" id="liveBadPct">63%</span><span class="wc-lbl">Badly Handled</span></div>
-      <div class="wc-divider"></div>
-      <div class="wc-stat"><span class="wc-num green" id="liveGoodPct">37%</span><span class="wc-lbl">Well Handled</span></div>
-      <div class="wc-divider"></div>
-      <div class="wc-stat"><span class="wc-num" id="liveExperiences">847</span><span class="wc-lbl">Experiences Shared</span></div>
-      <div class="wc-divider"></div>
-      <div class="wc-stat"><span class="wc-num" id="liveCompaniesRated">94</span><span class="wc-lbl">Companies Rated</span></div>
-    </div>
-  </div>
-  <div class="wc-right">
-    <div class="wc-boards">
-      <div class="wc-board shame">
-        <div class="wc-board-label">😤 Wall of Shame</div>
-        <div class="wc-co-row"><span class="wc-co-rank">1</span><span class="wc-co-name">Tesla</span><span class="wc-score red">1.2</span></div>
-        <div class="wc-co-row"><span class="wc-co-rank">2</span><span class="wc-co-name">Meta</span><span class="wc-score red">1.8</span></div>
-        <div class="wc-co-row"><span class="wc-co-rank">3</span><span class="wc-co-name">Amazon</span><span class="wc-score red">2.1</span></div>
-      </div>
-      <div class="wc-board fame">
-        <div class="wc-board-label">😊 Hall of Fame</div>
-        <div class="wc-co-row"><span class="wc-co-rank">1</span><span class="wc-co-name">HubSpot</span><span class="wc-score green">4.8</span></div>
-        <div class="wc-co-row"><span class="wc-co-rank">2</span><span class="wc-co-name">Stripe</span><span class="wc-score green">4.7</span></div>
-        <div class="wc-co-row"><span class="wc-co-rank">3</span><span class="wc-co-name">Shopify</span><span class="wc-score green">4.5</span></div>
-      </div>
-    </div>
-    <div class="wc-cta">Share Your Experience →</div>
-  </div>
-</a>
-
 <!-- BODY CONTENT -->
 <div class="body-grid">
   <div class="body-main">
@@ -1320,7 +1281,7 @@
         <li><a href="/">Live Dashboard</a></li>
         <li><a href="/sectors.html">Sector Analysis</a></li>
         <li><a href="/regional.html">Regional Data</a></li>
-        <li><a href="/whisper.html">Whisper Network</a></li>
+        <li></li>
         <li><a href="/jobs.html">Jobs & Learning</a></li>
         <li><a href="https://www.dol.gov/agencies/eta/layoffs/warn" target="_blank">WARN Filings</a></li>
       </ul>
@@ -1382,7 +1343,7 @@ function drawSparkChart() {
   const ctx = canvas.getContext('2d');
   ctx.scale(dpr, dpr);
 
-  const data = [8035, 10044, 12053, 14062]; // Jan–Apr 2026 — updated by scraper
+  const data = [9109, 11386, 13664, 15941, 14802]; // Jan–May 2026 — updated by scraper
   const months = ['Jan', 'Feb', 'Mar', 'Apr'];
   const max = Math.max(...data);
   const pad = { t:10, r:8, b:28, l:48 };
