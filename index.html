@@ -1070,9 +1070,13 @@
 
   <!-- SIDEBAR -->
   <aside class="hero-aside">
-
-    <!-- WHISPER NETWORK — FIRST AND BOLD -->
-    
+    <div class="aside-block">
+      <div class="aside-title">Market Sentiment · Live</div>
+      <ul class="sentiment-list">
+        <li class="sentiment-item">
+          <div class="senti-co">Tesla</div>
+          <span class="senti-tag tag-red">Massive Cuts</span>
+          <div class="senti-bar-wrap"><div class="senti-bar" style="width:90%;background:var(--accent-red)"></div></div>
         </li>
         <li class="sentiment-item">
           <div class="senti-co">Cisco</div>
@@ -1101,7 +1105,42 @@
         </li>
       </ul>
     </div>
-
+    <div class="aside-block">
+      <div class="aside-title">Regional Outlook · 2026</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+        <div style="background:var(--paper-warm);border:1px solid var(--rule);padding:12px;">
+          <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:4px;">🇺🇸 United States</div>
+          <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--ink);">134,200</div>
+          <div style="font-size:10px;color:var(--ink-muted);margin-top:2px;">jobs eliminated</div>
+        </div>
+        <div style="background:var(--paper-warm);border:1px solid var(--rule);padding:12px;">
+          <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:4px;">🇮🇳 India</div>
+          <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--ink);">38,400</div>
+          <div style="font-size:10px;color:var(--ink-muted);margin-top:2px;">jobs eliminated</div>
+        </div>
+        <div style="background:var(--paper-warm);border:1px solid var(--rule);padding:12px;">
+          <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:4px;">🇬🇧 United Kingdom</div>
+          <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--ink);">21,800</div>
+          <div style="font-size:10px;color:var(--ink-muted);margin-top:2px;">jobs eliminated</div>
+        </div>
+        <div style="background:var(--paper-warm);border:1px solid var(--rule);padding:12px;">
+          <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:4px;">🇩🇪 Germany</div>
+          <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--ink);">14,600</div>
+          <div style="font-size:10px;color:var(--ink-muted);margin-top:2px;">jobs eliminated</div>
+        </div>
+      </div>
+      <a href="/regional.html" style="display:block;background:none;border:1px solid var(--rule);color:var(--ink);text-align:center;padding:9px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border-radius:2px;">Map View →</a>
+    </div>
+    <div class="aside-block">
+      <div class="aside-title">India IT Sector · 2026</div>
+      <p style="font-size:12px;color:var(--ink-muted);line-height:1.7;margin-bottom:12px;">TCS cut 23,460 jobs. GCCs adding 3-4 lakh roles. The full picture for Indian IT workers.</p>
+      <a href="/india.html" style="display:block;background:var(--ink);color:var(--paper);text-align:center;padding:11px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;border-radius:2px;">🇮🇳 India Report →</a>
+    </div>
+    <div class="aside-block">
+      <div class="aside-title">Latest Insights</div>
+      <p style="font-size:12px;color:var(--ink-muted);line-height:1.7;margin-bottom:12px;">How to negotiate severance. WARN Act rights. What the 2026 layoff wave really means.</p>
+      <a href="/insights.html" style="display:block;background:var(--ink);color:var(--paper);text-align:center;padding:11px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;border-radius:2px;">Read Insights →</a>
+    </div>
   </aside>
 </section>
 
@@ -1292,8 +1331,7 @@ const tickerData = [
   { co:'Dell', val:'-3,100', cls:'neg' },
   { co:'Microsoft', val:'+2,400', cls:'pos' },
   { co:'Accenture', val:'-1,800', cls:'neg' },
-  { co:'Meta', val:'watch', cls:'neu' },
-];
+  { co:'Meta', val:'watch', cls:'neu' }];
 
 function buildTicker() {
   const inner = document.getElementById('ticker');
