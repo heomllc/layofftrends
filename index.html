@@ -970,7 +970,7 @@
     <div class="brand-pillars">
       <a href="/" class="brand-pillar active">📊 Know the Market</a>
       <a href="/jobs.html" class="brand-pillar">💼 Find Jobs</a>
-      <a href="/whisper.html" class="brand-pillar">🔊 Share Your Experience</a>
+      <a href="/jobs.html" class="brand-pillar">🔍 Find Opportunities</a>
     </div>
   </div>
         <nav class="masthead-nav">
@@ -997,7 +997,7 @@
   <div class="hero-main">
     <div class="hero-eyebrow fade-in">2026 Annual Report · Updated Hourly</div>
     <h1 class="hero-headline fade-in"><span id="liveTotal">218,400</span><br>Jobs Eliminated<br>This Year</h1>
-    <p class="hero-subline fade-in">Aggregated from verified WARN Act filings, authenticated corporate disclosures, and authenticated peer submissions across 47 industries. Data current as of <span id="lastUpdated">--:-- UTC</span>.</p>
+    <p class="hero-subline fade-in">Aggregated from verified WARN Act filings, authenticated corporate disclosures, and authenticated peer submissions across 47 industries. Data current as of <span id="lastUpdated">today</span>.</p>
 
     <!-- KPI Strip -->
     <div class="kpi-strip fade-in">
@@ -1008,13 +1008,13 @@
       </div>
       <div class="kpi">
         <div class="kpi-label">Active WARN Notices</div>
-        <div class="kpi-value" id="liveWarn"></div>
-        <div class="kpi-delta neg">updating...</div>
+        <div class="kpi-value" id="liveWarn">1,200</div>
+        <div class="kpi-delta neg">↑ reporting cuts</div>
       </div>
       <div class="kpi">
         <div class="kpi-label">Companies Affected</div>
-        <div class="kpi-value" id="liveCos"></div>
-        <div class="kpi-delta neg">updating...</div>
+        <div class="kpi-value" id="liveCos">300</div>
+        <div class="kpi-delta neg">↑ reporting cuts</div>
       </div>
     </div>
 
@@ -1072,47 +1072,7 @@
   <aside class="hero-aside">
 
     <!-- WHISPER NETWORK — FIRST AND BOLD -->
-    <div class="aside-block" style="border:2px solid var(--ink);padding:18px;margin-bottom:20px;background:var(--paper);">
-      <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:900;color:var(--ink);line-height:1.15;margin-bottom:8px;">Did Your Company Handle the Layoff Well<span style="color:var(--accent-red);">?</span></div>
-      <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent-red);margin-bottom:12px;">🔊 Whisper Network · Live Community Scores</div>
-      <p style="font-size:12px;color:var(--ink-muted);line-height:1.65;margin-bottom:14px;">Companies get a <strong style="color:var(--ink);">live public score</strong> based on how they treated people — severance, notice, communication, outplacement, and basic human decency. From the people who were there.</p>
-
-      <!-- Clickable stat tiles -->
-      <div style="display:flex;gap:8px;margin-bottom:14px;">
-        <a href="/whisper.html#badly-handled" style="flex:1;background:#fde8e8;border:2px solid #f5c6c4;padding:12px 10px;border-radius:2px;text-align:center;text-decoration:none;cursor:pointer;transition:all 0.15s;" onmouseover="this.style.borderColor='var(--accent-red)';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#f5c6c4';this.style.transform='translateY(0)'">
-          <div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--accent-red);line-height:1;" id="sidebarBad">63%</div>
-          <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent-red);margin-top:3px;">😤 Badly Handled</div>
-          <div style="font-family:'DM Mono',monospace;font-size:8px;color:#aaa;margin-top:4px;">tap to see →</div>
-        </a>
-        <a href="/whisper.html#well-handled" style="flex:1;background:#e2f5ec;border:2px solid #b8dfc9;padding:12px 10px;border-radius:2px;text-align:center;text-decoration:none;cursor:pointer;transition:all 0.15s;" onmouseover="this.style.borderColor='var(--accent-green)';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#b8dfc9';this.style.transform='translateY(0)'">
-          <div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--accent-green);line-height:1;" id="sidebarGood">37%</div>
-          <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent-green);margin-top:3px;">😊 Well Handled</div>
-          <div style="font-family:'DM Mono',monospace;font-size:8px;color:#aaa;margin-top:4px;">tap to see →</div>
-        </a>
-      </div>
-
-      <!-- Two contrast quotes -->
-      <div style="border:1px solid var(--rule);padding:10px 12px;margin-bottom:8px;font-size:12px;border-left:3px solid var(--accent-red);">
-        <strong style="font-size:13px;color:var(--ink);">Tesla</strong>
-        <span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--accent-red);float:right;letter-spacing:0.06em;">1.2 / 5.0</span>
-        <div style="color:var(--ink-muted);margin-top:4px;line-height:1.5;clear:both;">"Badge stopped working at 6am. No call. Just a Slack message."</div>
-      </div>
-      <div style="border:1px solid var(--rule);padding:10px 12px;margin-bottom:16px;font-size:12px;border-left:3px solid var(--accent-green);">
-        <strong style="font-size:13px;color:var(--ink);">Stripe</strong>
-        <span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--accent-green);float:right;letter-spacing:0.06em;">4.7 / 5.0</span>
-        <div style="color:var(--ink-muted);margin-top:4px;line-height:1.5;clear:both;">"14 weeks severance, COBRA paid 6 months. CEO called personally."</div>
-      </div>
-      <a href="/whisper.html" style="display:block;background:var(--accent-red);color:white;text-align:center;padding:12px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;border-radius:2px;font-weight:500;">Rate Your Company →</a>
-    </div>
-
-    <!-- MARKET SENTIMENT — BELOW -->
-    <div class="aside-block">
-      <div class="aside-title">Market Sentiment · Live</div>
-      <ul class="sentiment-list">
-        <li class="sentiment-item">
-          <div class="senti-co">Tesla</div>
-          <span class="senti-tag tag-red">Massive Cuts</span>
-          <div class="senti-bar-wrap"><div class="senti-bar" style="width:90%;background:var(--accent-red)"></div></div>
+    
         </li>
         <li class="sentiment-item">
           <div class="senti-co">Cisco</div>
@@ -1541,6 +1501,9 @@ async function loadLiveData() {
 }
 
 loadLiveData();
+// Update timestamp
+const el = document.getElementById("lastUpdated");
+if(el){ const d=new Date(); el.textContent=d.toLocaleString("en-US",{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit",timeZoneName:"short"}); }
 </script>
 </body>
 </html>
