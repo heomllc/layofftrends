@@ -15,12 +15,7 @@
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content="https://layofftrends.com/og-image.png" />
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2046505253481420" crossorigin="anonymous"></script>
-<link rel="shortcut icon" href="/favicon.svg" />
-<link rel="apple-touch-icon" href="/favicon.svg" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-<link rel="shortcut icon" href="/favicon.svg" />
-<link rel="apple-touch-icon" href="/favicon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script type="application/ld+json">
@@ -30,6 +25,55 @@
   "name": "LayoffTrends",
   "url": "https://layofftrends.com",
   "description": "Real-time 2026 tech layoff tracker aggregating WARN Act filings, corporate disclosures, and community layoff experience ratings."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "LayoffTrends 2026 Workforce Displacement Data",
+  "description": "Real-time dataset of 2026 layoffs aggregated from WARN Act filings, SEC disclosures, and corporate announcements. Covers 300+ companies across 47 industries.",
+  "url": "https://layofftrends.com",
+  "creator": { "@type": "Organization", "name": "LayoffTrends", "url": "https://layofftrends.com" },
+  "temporalCoverage": "2026",
+  "spatialCoverage": "Global",
+  "keywords": ["layoffs", "WARN Act", "workforce reduction", "job cuts", "tech layoffs 2026"],
+  "license": "https://layofftrends.com/about.html",
+  "isAccessibleForFree": true,
+  "measurementTechnique": "Aggregated from US Department of Labor WARN filings, SEC 8-K filings, and verified corporate press releases"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How many layoffs have there been in 2026?",
+      "acceptedAnswer": { "@type": "Answer", "text": "As of May 2026, over 113,863 workers have been laid off across 300+ companies in 2026, based on verified WARN Act filings and corporate announcements." }
+    },
+    {
+      "@type": "Question",
+      "name": "Which companies have had the biggest layoffs in 2026?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The largest layoffs in 2026 include Oracle (30,000), Intel (15,000), Spirit Airlines (17,000), Amazon (16,000), and Citigroup (4,200)." }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the WARN Act?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The Worker Adjustment and Retraining Notification (WARN) Act requires US employers with 100+ employees to provide 60 days advance notice before mass layoffs. These filings are public record and tracked in real time by LayoffTrends." }
+    },
+    {
+      "@type": "Question",
+      "name": "Are there layoffs in India's IT sector in 2026?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. TCS cut 23,460 jobs in FY26. Wipro and Infosys are also reducing headcount, while GCCs (Global Capability Centres) are adding 3-4 lakh new roles in Bengaluru, Hyderabad and Pune." }
+    },
+    {
+      "@type": "Question",
+      "name": "How can I track layoffs at my company?",
+      "acceptedAnswer": { "@type": "Answer", "text": "LayoffTrends tracks WARN Act filings and corporate announcements in real time. Check the Live Dashboard and Latest News sections for the most current layoff data." }
+    }
+  ]
 }
 </script>
 <style>
@@ -170,6 +214,79 @@
 
   .masthead-nav a:first-child { border-left: 1px solid var(--rule); }
   .masthead-nav a:hover, .masthead-nav a.active { color: var(--ink); background: var(--paper-warm); }
+
+  /* ── BREAKING NEWS FLASH ── */
+  .breaking-bar {
+    background: var(--accent-red);
+    color: white;
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: stretch;
+  }
+
+  .breaking-label {
+    background: #8a1f16;
+    color: white;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .breaking-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: white;
+    animation: pulse 1s ease-in-out infinite;
+  }
+
+  .breaking-scroll {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+
+  .breaking-inner {
+    display: flex;
+    gap: 0;
+    white-space: nowrap;
+    animation: breakingScroll 35s linear infinite;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+  }
+
+  .breaking-inner:hover { animation-play-state: paused; }
+
+  @keyframes breakingScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .breaking-item {
+    padding: 8px 32px 8px 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .breaking-item::after {
+    content: '·';
+    margin-left: 24px;
+    opacity: 0.5;
+  }
+
+  .breaking-co { font-weight: 500; }
+  .breaking-num { opacity: 0.85; }
 
   /* ── TICKER ── */
   .ticker-bar {
@@ -647,6 +764,29 @@
     <a href="/about.html">About</a>
   </nav>
 </header>
+
+<!-- BREAKING NEWS FLASH -->
+<div class="breaking-bar">
+  <div class="breaking-label"><div class="breaking-dot"></div>Breaking</div>
+  <div class="breaking-scroll">
+    <div class="breaking-inner" id="breakingNews">
+      <span class="breaking-item"><span class="breaking-co">Oracle</span><span class="breaking-num">30,000 jobs cut · AI data center pivot</span></span>
+      <span class="breaking-item"><span class="breaking-co">Spirit Airlines</span><span class="breaking-num">17,000 jobs · Full shutdown May 2026</span></span>
+      <span class="breaking-item"><span class="breaking-co">Intel</span><span class="breaking-num">15,000 jobs cut · Second major restructuring of 2026</span></span>
+      <span class="breaking-item"><span class="breaking-co">Amazon</span><span class="breaking-num">16,000 corporate roles eliminated · Go & Fresh stores closing</span></span>
+      <span class="breaking-item"><span class="breaking-co">Citigroup</span><span class="breaking-num">4,200 back-office roles · AI automation drive</span></span>
+      <span class="breaking-item"><span class="breaking-co">Dell</span><span class="breaking-num">11,000 jobs · 10% workforce reduction FY2026</span></span>
+      <span class="breaking-item"><span class="breaking-co">Chevron</span><span class="breaking-num">8,000 jobs · 15-20% global workforce by end of 2026</span></span>
+      <span class="breaking-item"><span class="breaking-co">Oracle</span><span class="breaking-num">30,000 jobs cut · AI data center pivot</span></span>
+      <span class="breaking-item"><span class="breaking-co">Spirit Airlines</span><span class="breaking-num">17,000 jobs · Full shutdown May 2026</span></span>
+      <span class="breaking-item"><span class="breaking-co">Intel</span><span class="breaking-num">15,000 jobs cut · Second major restructuring of 2026</span></span>
+      <span class="breaking-item"><span class="breaking-co">Amazon</span><span class="breaking-num">16,000 corporate roles eliminated · Go & Fresh stores closing</span></span>
+      <span class="breaking-item"><span class="breaking-co">Citigroup</span><span class="breaking-num">4,200 back-office roles · AI automation drive</span></span>
+      <span class="breaking-item"><span class="breaking-co">Dell</span><span class="breaking-num">11,000 jobs · 10% workforce reduction FY2026</span></span>
+      <span class="breaking-item"><span class="breaking-co">Chevron</span><span class="breaking-num">8,000 jobs · 15-20% global workforce by end of 2026</span></span>
+    </div>
+  </div>
+</div>
 
 <!-- TICKER -->
 <div class="ticker-bar">
